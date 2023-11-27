@@ -4,7 +4,7 @@ import { Avatar, Icon } from '@rneui/themed';
 import Number from './Number';
 import { pedido_props } from '../interface/inter';
 import { connect } from 'react-redux';
-import { fetchExcluirPedido, fetchExcluirPedido_Mesa } from '../store/action/pedidos';
+import { fetchExcluirPedido_Mesa } from '../store/action/pedidos';
 
 const Pedido = (props: pedido_props) => {
  
@@ -68,13 +68,9 @@ const Pedido = (props: pedido_props) => {
   :null
   // funcao de deletar onFetchPedidos_Excluir e onFetchPedidos_Excluir_Mesa o primeiro deleta um item com 1 id o segundo deleta um array de ids pois mesa possui mais do q 1 pedido
   const delete_ = () => {
-    if (props.ids) {
       Alert.alert(`Excluindo pedidos da mesa : ${props.numero_mesa}`);
       props.onFetchPedidos_Excluir_Mesa(props.ids);
-    } else {
-      Alert.alert('Excluindo pedido');
-      props.onFetchPedidos_Excluir(props.id);
-    }
+    
   }
   
   return  (
@@ -167,7 +163,6 @@ const styles = StyleSheet.create({
 const mapDispatchProps = (dispatch: any) => {
   return {
     
-    onFetchPedidos_Excluir: (id:string) => dispatch(fetchExcluirPedido(id)),
     onFetchPedidos_Excluir_Mesa: (id:string[]) => dispatch(fetchExcluirPedido_Mesa(id))
   };
 };

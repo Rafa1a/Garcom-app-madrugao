@@ -18,25 +18,9 @@ export interface message {
     title:string;
     text:string
 }
-export interface inicial_state_outros  {
-    localidade: string,
-    status: boolean,
-    ordem: number,
-    itens: adicionar_comp[],
-    rua: string,
-    numero: number,
-    pegar_local: boolean,
-}
-export const inicial_state_outros:any = {
-    state_outros: {
-        localidade: 'OUTROS',
-        status: false,
-        ordem:  0,
-        itens: [],
-        rua: '',
-        numero: 0,
-        pegar_local: false,
-    },
+
+export const inicial_state_:any = {
+    
     state_mesas: {
         localidade: 'MESA',
         numero_mesa:0,

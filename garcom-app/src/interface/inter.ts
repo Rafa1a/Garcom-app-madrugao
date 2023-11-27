@@ -137,6 +137,5 @@ export interface user_on{
     onAtualizarPedido_Mesa:(ids:string[])=>void
     total:number
     adicionar_pedido:Item[]
-    inicial_state_outros:pedido_inter
     inicial_state_mesas:pedido_inter
   }

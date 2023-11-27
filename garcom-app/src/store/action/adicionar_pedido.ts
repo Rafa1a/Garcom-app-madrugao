@@ -12,7 +12,7 @@ export const addItemToPedidos = (novoItem:any) => {
         // console.log('Conteúdo de novoItem:', novoItem);
       try {
         // Adiciona um novo item à coleção "pedidos" no Firestore
-        const docRef = await addDoc(collection(db, 'pedidos'), novoItem);
+       await addDoc(collection(db, 'pedidos'), novoItem);
   
         // console.log('Item adicionado com sucesso ao pedido:', docRef.id);
   
@@ -61,12 +61,6 @@ export const setAdicionar_pedido = (pedido:any) => {
         type: SET_ADICIONAR_PEDIDO_ITENS,
         payload: pedido
     }
-}
-export const setAdicionar_pedido_state = (pedido:any) => {
-  return {
-      type: SET_ADICIONAR_PEDIDO,
-      payload: pedido
-  }
 }
 export const setAdicionar_pedido_state_mesa = (pedido:any) => {
   return {

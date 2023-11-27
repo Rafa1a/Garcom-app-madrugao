@@ -1,5 +1,4 @@
 
-import axios from 'axios'
 import {GET_USER} from './actionTypes'
 import { Dispatch } from 'redux'
 import { user_on } from '../../interface/inter'

@@ -69,41 +69,7 @@ export const fetchcardapio =  () =>{
         // })
     }
   }
-
-  export const fetchatualizar_cardapio_onoroff = (id:any,onorof:Boolean) => {
-    return async (dispatch:any)=>{
-      try{
-        const pedidoRef = doc(db, 'cardapio', id);
-        await updateDoc(pedidoRef, {
-          onorof: onorof
-        });
-      }catch (e) {
-        // console.error("Error fetching documents: ", e);
-        dispatch(setMessage({
-          title: 'Error',
-          text: 'Ocorreu um erro ao atualizar estado do cardapio'
-        }))
-      }
-      
-    }
-  }
-  export const fetchatualizar_cardapio_estoque = (id:any,estoque:number) => {
-    return async (dispatch:any)=>{
-      try{
-        const pedidoRef = doc(db, 'cardapio', id);
-        await updateDoc(pedidoRef, {
-          estoque: estoque
-        });
-      }catch (e) {
-        // console.error("Error fetching documents: ", e);
-        dispatch(setMessage({
-          title: 'Error',
-          text: 'Ocorreu um erro ao atualizar estado do estoque'
-        }))
-      }
-      
-    }
-  }
+  //atualizacao do cardapio automatico
   export const fetchatualizar_cardapio_estoque_auto = (id:string, estoque:number, id_pedido:string) => {
     return async (dispatch:any) => {
       try {

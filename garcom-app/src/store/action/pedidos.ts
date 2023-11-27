@@ -1,5 +1,4 @@
 
-import axios from 'axios'
 import {SET_PEDIDOS,SET_PEDIDOS_MESA, SET_TOTALVALOR} from './actionTypes'
 import { Dispatch } from 'redux'
 //auth
@@ -15,7 +14,7 @@ import { fetchcardapio } from './cardapio';
 export const startPedidosListener = () => {
   return (dispatch: any) => {
     try{
-      const q = query(collection(db, "pedidos"));
+      const q = query(collection(db, "pedidos"), where("localidade", "==", 'MESA'));
       onSnapshot(q, (snapshot) => {
         const cities: any[] = [];
         snapshot.forEach((doc) => {
@@ -45,7 +44,7 @@ export const startPedidosListener = () => {
 export const fetchpedidos =  () =>{
   return async (dispatch:any)=>{
     try {
-      const q = query(collection(db, "pedidos"));
+      const q = query(collection(db, "pedidos"), where("localidade", "==", 'MESA'));
       // const pedidosCol = collection(db, 'pedidos');
       const querySnapshot = await getDocs(q);
       const pedidos = querySnapshot.docs.map((doc) => {
@@ -84,49 +83,9 @@ export const fetchpedidos =  () =>{
       // })
   }
 }
-// chamda apra atualizar o status_chapeiro
-export const fetchatualizar_pedido = (id:any) => {
-  return async (dispatch:any)=>{
-    try{
-      const pedidoRef = doc(db, 'pedidos', id);
-      await updateDoc(pedidoRef, {
-        status: true
-      });
-    }catch (e) {
-      // console.error("Error fetching documents: ", e);
-      dispatch(setMessage({
-        title: 'Error',
-        text: 'Ocorreu um erro ao atualizar status do pedido'
-      }))
-    }
-    
-    // dispatch(fetchpedidos());
-    ///////////ANTIGO  data base///////////
-      // axios.patch(`/pedidos/${id}.json`, {
-      //     status_lanche : true
-      // }).catch(err => console.log(err))
-      // .then((res:any) => {
-      //     dispatch(fetchpedidos())
-      // })
-  }
-}
-// Excluir Pedido :
-export const fetchExcluirPedido = (id:string) =>{
-  return async (dispatch:any) => {
-    try{
-      const pedidoRef = doc(db, 'pedidos', id)
-      await deleteDoc(pedidoRef)
-    }catch (e) {
-      // console.error("Error fetching documents: ", e);
-      dispatch(setMessage({
-        title: 'Error',
-        text: 'Ocorreu um erro ao excluir pedido'
-      }))
-    }
-    
-  }
 
-}
+// Excluir Pedido :
+
 /////////////////////////////MESA////////////////////////////////////
 //Ecluir pedido Mesa :
 export const fetchExcluirPedido_Mesa = (ids: string[]) => {
@@ -184,40 +143,6 @@ export const fetchatualizar_pedido_mesa = (ids:string[]) => {
    
   }
 } 
-////////////////////////EXCLUIR TODOS OS PEDIDOS status===true////////////////////////////////////
-// Ação assíncrona usando redux-thunk
-export const deletePedidos = () => {
-  return async (dispatch:any) => {
-    try {
-      const q = query(collection(db, 'pedidos'), 
-        where('status', '==', true),
-        where('status_chapeiro', '==', false),
-        where('status_bar', '==', false),
-        where('status_porcoes', '==', false)
-      );
-
-      const querySnapshot = await getDocs(q);
-
-      const deletePromises = querySnapshot.docs.map(async (doc) => {
-        await deleteDoc(doc.ref);
-      });
-
-      await Promise.all(deletePromises);
-
-      // console.log('Pedidos excluídos com sucesso');
-      dispatch(setMessage({
-        title: 'Sucesso',
-        text: 'Limpeza Feita com sucesso'
-      }))
-    } catch (error) {
-      // console.error('Erro ao excluir pedidos:', error);
-      dispatch(setMessage({
-        title: 'Error',
-        text: 'Error ao tentar excluir itens,contate o suporte'
-      }))
-    }
-  };
-};
 
 // definir no redux os pedidos ACTION
 export const setPedidos =  (pedidos:any) => {

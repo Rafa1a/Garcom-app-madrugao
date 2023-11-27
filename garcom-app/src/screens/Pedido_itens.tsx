@@ -10,7 +10,7 @@ import {
 import Header_pedido from '../components/Header_Pedido';
 import Lista from '../components/Lista_Pedido'
 import { connect } from 'react-redux';
-import {fetchatualizar_pedido, fetchatualizar_pedido_mesa} from '../store/action/pedidos' 
+import { fetchatualizar_pedido_mesa} from '../store/action/pedidos' 
 import { pedido_itens_comp } from '../interface/inter';
 
 
@@ -19,16 +19,11 @@ import { pedido_itens_comp } from '../interface/inter';
    
   render() {
     const { numero_mesa, image_on, name_on, id, ids, rua, numero, pegar_local,dinheiro,pix,cartao } = this.props.route.params;
-    const atualizar_pedido = () => {
-      this.props.onAtualizarPedido(id)
-      // this.props.navigation?.navigate('Pedidos')
-      this.props.navigation?.goBack()
-    }
+    
     const atualizar_pedido_mesa = () =>{
       this.props.onAtualizarPedido_Mesa(ids)
       this.props.navigation?.goBack()
     }
-    const atualizar_escolha = numero_mesa?atualizar_pedido_mesa:atualizar_pedido
     return(
     <SafeAreaView style={styles.container}>
      <ScrollView style={styles.scroll}>
@@ -55,7 +50,7 @@ import { pedido_itens_comp } from '../interface/inter';
         <Text style={styles.totalValue}>${this.props.total}</Text>
       </View>
       <View style={styles.divider} />
-      <TouchableOpacity onPress={atualizar_escolha}  style={styles.button}>
+      <TouchableOpacity onPress={atualizar_pedido_mesa}  style={styles.button}>
             <Text style={styles.buttonText}>Finalizado</Text>
       </TouchableOpacity>
       
@@ -126,7 +121,6 @@ const mapStateProps = ({ pedidos }: { pedidos: any}) => {
 };
 const mapDispatchProps = (dispatch: any) => {
   return {
-    onAtualizarPedido: (id:any) => dispatch(fetchatualizar_pedido(id)),
     onAtualizarPedido_Mesa: (ids:any) => dispatch(fetchatualizar_pedido_mesa(ids)),
   };
 };

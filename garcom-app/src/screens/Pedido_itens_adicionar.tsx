@@ -12,14 +12,13 @@ import {
 import Header_pedido from '../components/Header_Pedido';
 import Lista from '../components/Lista_Pedido_adicionar';
 import { connect } from 'react-redux';
-import { fetchatualizar_pedido, fetchatualizar_pedido_mesa } from '../store/action/pedidos';
 import { pedido_itens_comp,cartao } from '../interface/inter';
 import { Switch } from '@rneui/themed';
 import { addItemToPedidos, setAdicionar_pedido } from '../store/action/adicionar_pedido';
 import { CheckBox } from '@rneui/themed';
 
 //////////////////////////////////////////////////
-const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigation,onAdicionar_pedido,inicial_state_outros,pedidos,inicial_state_mesas }: pedido_itens_comp & { total: number }) => {
+const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigation,onAdicionar_pedido,pedidos,inicial_state_mesas }: pedido_itens_comp & { total: number }) => {
   
   const { numero_mesa, mesa } = route.params;
   
@@ -42,9 +41,7 @@ const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigat
    if(mesa){
       inicial_state_mesas.numero_mesa = numero_mesa
       inicial_state_mesas.ordem = ordemMaisAlta()
-   } else {
-      inicial_state_outros.ordem = ordemMaisAlta() 
-   }
+   } 
   },[])
   
     //state de rua numero e local// uso apenas para OUTROS
@@ -65,22 +62,7 @@ const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigat
     const [check2, setCheck2] = useState(false);
   //definir :
 
-  // Definir rua, número e pegar local em inicial_state_outros
-    useEffect(() => {
-      if(!mesa) {
-        inicial_state_outros.rua = textRua;
-        inicial_state_outros.numero= textNumero;
-        inicial_state_outros.pegar_local = pegarLocal;
-        inicial_state_outros.dinheiro = Number(dinheiro);
-        inicial_state_outros.cartao = cartao;
-        inicial_state_outros.pix = pix;
-
-      }
-    }, [textRua, textNumero, pegarLocal,pix,cartao,dinheiro]);
-    //estado do cartao
-    useEffect(()=>{
-      setCartao({visa:visa,mastercard:mastercard,elo:elo})
-    },[visa,mastercard,elo])
+ 
 
   // Função para definir os status com base nos itens
   const definirStatus = () => {
@@ -88,7 +70,6 @@ const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigat
     let status_porcoes = false;
     let status_bar = false;
 
-    // Verificar cada item em inicial_state_outros.itens
     adicionar_pedido.forEach((item:any) => {
       if (item.categoria === 'comidas' && (item.categoria_2 === 'lanches' || item.categoria_2 === 'hotdogs')) {
         status_chapeiro = true;
@@ -113,10 +94,6 @@ const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigat
       inicial_state_mesas.status_chapeiro = status_chapeiro;
       inicial_state_mesas.status_porcoes = status_porcoes;
       inicial_state_mesas.status_bar = status_bar;
-    }else {
-      inicial_state_outros.status_chapeiro = status_chapeiro;
-      inicial_state_outros.status_porcoes = status_porcoes;
-      inicial_state_outros.status_bar = status_bar;
     }
   }, [status_chapeiro, status_porcoes, status_bar]);
 
@@ -125,8 +102,6 @@ const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigat
     if(mesa){
       inicial_state_mesas.itens = adicionar_pedido;
 
-    }else {
-      inicial_state_outros.itens = adicionar_pedido;
     }
   }, [adicionar_pedido]);
 
@@ -324,86 +299,15 @@ const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigat
           
           {/* button finalizar pedido */}
         <TouchableOpacity onPress={() => {
-          //enviar para o banco de dados
-          const finalizar_peidido = () => {
-            onAdicionarPedido(inicial_state_outros)
-            // //atualizar estado itens
-            onAdicionar_pedido([])
-            // //atualizar estado inicial
-            navigation?.goBack();  // Voltar uma vez
-            navigation?.goBack();  // Voltar mais uma vez
-          }
+          
           if(mesa){
             onAdicionarPedido(inicial_state_mesas)
             onAdicionar_pedido([])
             // //atualizar estado inicial
             navigation?.goBack();  // Voltar uma vez
             navigation?.goBack();  // Voltar mais uma vez
-          }else {
-            if(pegarLocal) {
-
-              setTextNumero('')
-              setTextRua('')
-              if(check1 || check2 || pix){
-                if(check1){
-                  if(dinheiro!==''){
-                    
-                    finalizar_peidido()
-
-                  }else{
-                    Alert.alert('Defina o valor para o troco')
-                  }
-                }else if(check2){
-                  if(visa || mastercard || elo){
-                    
-                    finalizar_peidido()
-
-                  }else{
-                    Alert.alert('Defina o cartão')
-                  }
-                }else if (pix){
-                    
-                  finalizar_peidido()
-
-                }
-              }else {
-                Alert.alert('Por favor escolher Forma de Pagamento')
-              }
-
-            }else if(textRua !== '' && textNumero !== ''){
-
-              setPegarLocal(false)
-              if(check1 || check2 || pix){
-                if(check1){
-                  if(dinheiro!==''){
-                    
-                    finalizar_peidido()
-
-                  }else{
-                    Alert.alert('Defina o valor para o troco')
-                  }
-                }else if(check2){
-                  if(visa || mastercard || elo){
-                    finalizar_peidido()
-
-                  }else{
-                    Alert.alert('Defina o cartão')
-                  }
-                }else if (pix){
-                    
-                  finalizar_peidido()
-
-                }
-              }else {
-                Alert.alert('Por favor escolher Forma de Pagamento')
-              }
-            }else{
-              Alert.alert('Por favor preencher : \n Rua, Número ou Pegar no local')
-            }
-            // console.log(inicial_state_outros)
-            // onAdicionarPedido(inicial_state_outros)
           }
-         
+
           }} style={styles.button}>
           <Text style={styles.buttonText}>Finalizar</Text>
         </TouchableOpacity>
@@ -546,7 +450,6 @@ const mapStateProps = ({ pedidos,state }: { pedidos: any,state:any }) => {
     pedidos: pedidos.pedidos,
     total: pedidos.total,
     adicionar_pedido:pedidos.adicionar_pedido,
-    inicial_state_outros:state.state_outros,
     inicial_state_mesas:state.state_mesas
   };
 };

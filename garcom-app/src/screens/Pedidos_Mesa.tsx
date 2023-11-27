@@ -7,7 +7,6 @@ import { pedido_inter, user_on } from '../interface/inter';
 import { fetchuser_get } from '../store/action/user';
 import Header from '../components/Header_pedidos';
 import { NavigationProp } from '@react-navigation/native';
-import { fetchcardapio, startCardapio } from '../store/action/cardapio';
 
 interface Props {
   pedidos: pedido_inter[];
@@ -23,34 +22,12 @@ interface Props {
 }
 const Pedidos = ({ pedidos,pedidos_mesa,onFetchPedidos_Mesa,navigation }:Props) => {
 
-  // chamada para validar e recuperar os pedidos no back-end 
-  //esta sendo feito no APP principal
-  // useEffect(() => {
-
-  //   onFetchPedidos();
-  //   onFetchCardapio();
-    
-  // }, []);
   
-  // // adicionar os usuarios online q fizeram pedidos como nome image ect..
-  // esta sendo atualizado no onSnapshot
-  // useEffect(() => {
-  //   pedidos.forEach((item) => {
-  //     if (item.localidade === 'ONLINE' && item.id_user) {
-  //       onFetchUser()
-  //     }
-  //   });
-  // }, [pedidos]);
-  
-// logica para separar os pedidos de Mesa em um novo array :
-
-// id:cur.id, ids:[cur.id],status:false,localidade:'MESA', numero_mesa: cur.numero_mesa, itens_all: [{ itens: cur.itens }]
-
 
   // recuperar pedido e  agrupar pedidos do mesmo numero de mesa
   useEffect(()=>{
     
-    const pedidosMesa = pedidos.filter((item: pedido_inter) => item.localidade === 'MESA' && item.status===false);
+    const pedidosMesa = pedidos.filter((item: pedido_inter) => item.status===false);
 
     const pedidosAgrupados:pedido_inter[] = pedidosMesa.reduce((acc:any, cur:any,index) => {
 

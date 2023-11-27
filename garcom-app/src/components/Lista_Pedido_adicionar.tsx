@@ -21,7 +21,6 @@ class Lista extends React.Component<lista_pedido_adicionar> {
        this.props.onFitchTotal_valor(parseFloat((total).toFixed(2)));
    }  
    // console.log(total)
-    // console.log(this.props.inicial_state_outros.itens)
     // Flat list de itens do Pedido :  1 PEDIDO
     return (
       <SafeAreaView style={styles.container}>

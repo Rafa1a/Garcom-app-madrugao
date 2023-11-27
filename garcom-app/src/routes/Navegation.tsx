@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs'
 import { MaterialCommunityIcons, Fontisto, Zocial,FontAwesome } from "@expo/vector-icons"; // Importe os ícones específicos que você precisa
 import Splash from "../screens/Splash";
 import Pedido_itens from "../screens/Pedido_itens"
 import Pedidos_Mesa from "../screens/Pedidos_Mesa";
-import Pedidos_Online from "../screens/Pedidos_Online";
-import Pedidos_Outros from "../screens/Pedidos_Outros";
-import Estoque from '../screens/Estoque'
 import Adicionar from "../screens/Adicionar";
 import Pedido_itens_adicionar from "../screens/Pedido_itens_adicionar";
 import { setAdicionar_pedido } from "../store/action/adicionar_pedido";
 import { connect } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-
+import Login from "../screens/Login";
 //////////////////////////////////////////////////////////////////////
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator()
@@ -28,9 +25,10 @@ const FeedStack = (props: any) => {
 
   //splash q inicia o app e carrega os dados de auth/firebase
   return (
-    <Stack.Navigator initialRouteName="Splash" >
+    <Stack.Navigator initialRouteName="Login" >
 
       <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} {...props} />
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} {...props} />
 
       <Stack.Screen name="Pedidos" component={MenuTab} options={{ headerShown: false, }} {...props} />
 
@@ -72,7 +70,7 @@ const MenuTab = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Pedidos_Online"
         component={Pedidos_Online}
         options={{
@@ -91,17 +89,8 @@ const MenuTab = () => {
             <Fontisto name="user-secret" color={color} size={26} />
           ),
         }}
-      />
-      <Tab.Screen
-        name="Estoque"
-        component={Estoque}
-        options={{
-          tabBarLabel: 'Estoque',
-          tabBarIcon: ({ color }) => (
-            <Zocial name="stackoverflow" color={color} size={26} />
-          ),
-        }}
-      />
+      /> */}
+     
     </Tab.Navigator>
   );
 }

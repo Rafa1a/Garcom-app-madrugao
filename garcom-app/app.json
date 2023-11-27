@@ -38,6 +38,7 @@
     },
     "updates": {
       "url": "https://u.expo.dev/59f6b9ce-8ab8-40f7-9102-450c1164571d"
-    }
+    },
+    "scheme":"garcom-app"
   }
 }

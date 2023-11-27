@@ -15,7 +15,6 @@ import { HeaderPedidosProps, pedido_inter } from '../interface/inter';
 import { fetchMesas } from '../store/action/adicionar_pedido';
 import { connect } from 'react-redux';
 import List_mesas from './List_mesas';
-import { deletePedidos } from '../store/action/pedidos';
 
 // Header de Pedidos simples
 const Header = ({ outros, online, mesa, navigation, onFetchMesas, mesas,onDelete_all }: HeaderPedidosProps) => {
@@ -56,21 +55,7 @@ const Header = ({ outros, online, mesa, navigation, onFetchMesas, mesas,onDelete
         {online ? 'Online' : null}
         {mesa ? 'Mesa' : null}
       </Text>
-      <Button
-        size='md'
-        radius='lg'
-        type='outline'
-        icon={{
-          name: 'broom',
-          type: 'font-awesome-5',
-          size: 25,
-          color: 'white',
-        }}
-        buttonStyle={{ borderColor: '#0E00E3', backgroundColor: '#2d2f31' }}
-        onPress={() => {
-          onDelete_all()
-        }}
-      />
+      
       {outros ? (
         <Button
         size='md'
@@ -217,7 +202,6 @@ const mapStateProps = ({ pedidos }: { pedidos: any }) => {
 const mapDispatchProps = (dispatch: any) => {
   return {
     onFetchMesas : () => dispatch(fetchMesas()),
-    onDelete_all:() => dispatch(deletePedidos())
   };
 };
 export default connect(mapStateProps,mapDispatchProps)(Header)
