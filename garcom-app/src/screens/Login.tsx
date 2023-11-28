@@ -1,24 +1,56 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+//necessarios para fazer login
+import * as Google from 'expo-auth-session/providers/google'
+import * as WebBrowser from 'expo-web-browser'
+import {
+GoogleAuthProvider,
+onAuthStateChanged,
+signInWithCredential
+} from 'firebase/auth'
+import { auth } from '../store/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = (props: any) => {
-  const handleGoogleLogin = () => {
-    // Implementar a lógica de login com o Google aqui
-    console.log('Login com Google');
-  };
+  const [userInfo, setUserInfo] = React.useState<any>()
+  const [request,response,promptAsync] = Google.useAuthRequest({
+    iosClientId:"132031674201-9s1pkkhehuakqevilbob9btuia0bf2e4.apps.googleusercontent.com",
+    androidClientId:"132031674201-vu8fs3nq0e0sacsf9o2umraillpecp7o.apps.googleusercontent.com"
+  })
 
-  const handleFacebookLogin = () => {
-    // Implementar a lógica de login com o Facebook aqui
-    console.log('Login com Facebook');
-  };
+  React.useEffect(()=>{
+    if(response?.type == "success"){
+      // console.log(response)
+      const {id_token} = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      // console.log(credential)
+      signInWithCredential(auth,credential)
+    }
+  },[response])
 
+  React.useEffect(()=>{
+    const unsub = onAuthStateChanged(auth,async (user) =>{
+      if(user){
+        console.log(JSON.stringify(user,null,2))
+
+        setUserInfo(user);
+      }else {
+        console.log('sem user')
+      }
+    })
+    return () =>unsub();
+  },[]);
+
+  
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={handleGoogleLogin}>
-        <Text style={styles.buttonText}>Login com Google</Text>
+      <TouchableOpacity style={styles.button} onPress={()=>promptAsync()}>
+        <Text style={styles.buttonText}>rafa com Google</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={handleFacebookLogin}>
+      <TouchableOpacity style={styles.button} >
         <Text style={styles.buttonText}>Login com Facebook</Text>
       </TouchableOpacity>
     </View>
