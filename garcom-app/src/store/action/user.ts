@@ -8,9 +8,8 @@ import { db } from '../auth';
 import { setMessage } from './message';
 // retornar users e Atualizar users redux [users]
 export const fetchuser_get = () =>{
-    return async(dispatch:Dispatch)=>{
+    return async(dispatch:any)=>{
         try {
-            
             const usersCol = collection(db, 'user_func');
             const querySnapshot = await getDocs(usersCol);
             const users:any = querySnapshot.docs.map((doc) => {
@@ -25,6 +24,7 @@ export const fetchuser_get = () =>{
             dispatch(setUser(users))
             
           } catch (e) {
+            console.log(e)
             dispatch(setMessage({
               title: 'Error',
               text: 'Ocorreu um erro ao contatar o servidor dos usuarios'

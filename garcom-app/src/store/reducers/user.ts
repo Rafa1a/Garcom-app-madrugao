@@ -6,7 +6,7 @@ interface actions {
     payload:any
 }
 const initialState:any = {
-    users:[]
+    users:undefined
 }
 
 
