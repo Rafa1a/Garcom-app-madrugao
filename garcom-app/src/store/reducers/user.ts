@@ -1,4 +1,4 @@
-import { user_on } from "../../interface/inter"
+import { user_fun } from "../../interface/inter"
 import { GET_USER } from "../action/actionTypes"
 
 interface actions {

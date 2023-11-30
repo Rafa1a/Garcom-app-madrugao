@@ -21,7 +21,6 @@ export interface HeaderPedidosProps {
   navigation ?: NavigationProp<any,any>;
   mesas:[],
   onFetchMesas:()=>void
-  onDelete_all:()=>void
 
 }
 export interface ItemProps {
@@ -64,16 +63,13 @@ export interface pedido_props {
     status_chapeiro?:boolean
     status_porcoes?:boolean
     status_bar?:boolean
-    onFetchPedidos_Excluir:(id:string)=>void
     onFetchPedidos_Excluir_Mesa:(id:string[])=>void
 
   }
-export interface user_on{
+export interface user_fun{
   id            : string
-  image_on      : string
-  name_on       : string,
-  rua_on         : string,
-  numero_on        : number
+  image_fun      : string
+  name_fun       : string,
  
 }
  export interface Item {

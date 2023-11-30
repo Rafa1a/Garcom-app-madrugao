@@ -6,7 +6,6 @@ import { db } from '../auth';
 
 import { collection,doc,onSnapshot,getDocs,query, where, updateDoc, deleteDoc, arrayRemove} from "firebase/firestore"; 
 import { setMessage } from './message';
-import { fetchuser_get } from './user';
 import { ItemProps } from '../../interface/inter';
 import { fetchcardapio } from './cardapio';
 
@@ -25,7 +24,6 @@ export const startPedidosListener = () => {
         // }
         console.log("pedidos onsnap")
         dispatch(fetchpedidos());
-        dispatch(fetchuser_get())
       }); 
     }catch (e) {
         // console.error("Error fetching documents: ", e);

@@ -3,8 +3,7 @@ import { SafeAreaView, StyleSheet, Text, View, FlatList, Dimensions, ScrollView 
 import { connect } from 'react-redux';
 import { fetchpedidos,setPedidos_MESA,startPedidosListener} from '../store/action/pedidos';
 import Pedido from '../components/Pedido'
-import { pedido_inter, user_on } from '../interface/inter';
-import { fetchuser_get } from '../store/action/user';
+import { pedido_inter, user_fun } from '../interface/inter';
 import Header from '../components/Header_pedidos';
 import { NavigationProp } from '@react-navigation/native';
 
@@ -17,7 +16,7 @@ interface Props {
   name_on?: string;
   image_on?:string;
   status_chapeiro?:boolean;
-  users:user_on[];
+  users:user_fun[];
   navigation: NavigationProp<any,any>;
 }
 const Pedidos = ({ pedidos,pedidos_mesa,onFetchPedidos_Mesa,navigation }:Props) => {

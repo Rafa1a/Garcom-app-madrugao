@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import List_mesas from './List_mesas';
 
 // Header de Pedidos simples
-const Header = ({ outros, online, mesa, navigation, onFetchMesas, mesas,onDelete_all }: HeaderPedidosProps) => {
+const Header = ({ outros, online, mesa, navigation, onFetchMesas, mesas }: HeaderPedidosProps) => {
   
   // busacar mesas no banco de dados
   useEffect(()=>{

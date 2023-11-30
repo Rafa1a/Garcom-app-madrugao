@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { Image, LinearProgress } from '@rneui/themed';
-import { auth_user } from '../store/auth';
 import { connect } from 'react-redux';
 import { startCardapio } from '../store/action/cardapio';
 import { startPedidosListener } from '../store/action/pedidos';
@@ -35,14 +34,8 @@ const Splash = ({ navigation, pedidos, cardapio, onFetchPedidos, onFetchCardapio
 
     const checkAuthentication = async () => {
       try {
-        // Aguarde a verificação da autenticação.
-        const authenticated: any =  auth_user();
 
-        // Aguarde 2 segundos para exibir a tela de carregamento.
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-
-        // Se o usuário estiver autenticado e ainda não carregou os dados
-        if (authenticated && !loaded) {
+        if (!loaded) {
           // funcoes q retornam pedidos cardapio e users
           await onFetchPedidos();
           await onFetchCardapio();

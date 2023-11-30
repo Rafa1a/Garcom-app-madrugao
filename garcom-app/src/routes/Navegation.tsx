@@ -70,7 +70,7 @@ const MenuTab = () => {
           ),
         }}
       />
-      {/* <Tab.Screen
+      {/* {/* <Tab.Screen
         name="Pedidos_Online"
         component={Pedidos_Online}
         options={{
@@ -79,17 +79,17 @@ const MenuTab = () => {
             <Fontisto name="world" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Pedidos_Outros"
-        component={Pedidos_Outros}
+        component={Adicionar}
         options={{
           tabBarLabel: 'Outros',
           tabBarIcon: ({ color }) => (
             <Fontisto name="user-secret" color={color} size={26} />
           ),
         }}
-      /> */}
+      /> 
      
     </Tab.Navigator>
   );

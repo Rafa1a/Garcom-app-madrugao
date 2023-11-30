@@ -1,15 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View,
+} from 'react-native';
 //necessarios para fazer login
 import * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowser from 'expo-web-browser'
 import {
 GoogleAuthProvider,
 onAuthStateChanged,
-signInWithCredential
+signInWithCredential,
+signOut
 } from 'firebase/auth'
 import { auth } from '../store/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FontAwesome } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { connect } from 'react-redux';
+import { add_Func } from '../store/action/user';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -21,21 +30,14 @@ const LoginScreen = (props: any) => {
   })
 
   React.useEffect(()=>{
-    if(response?.type == "success"){
-      // console.log(response)
-      const {id_token} = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-      // console.log(credential)
-      signInWithCredential(auth,credential)
-    }
-  },[response])
-
-  React.useEffect(()=>{
-    const unsub = onAuthStateChanged(auth,async (user) =>{
+    const unsub = onAuthStateChanged(auth,async (user:any) =>{
       if(user){
-        console.log(JSON.stringify(user,null,2))
-
+        // console.log(JSON.stringify(user,null,2))
+        // const new_user = {
+        //   name_func : res
+        // }
         setUserInfo(user);
+
       }else {
         console.log('sem user')
       }
@@ -43,38 +45,79 @@ const LoginScreen = (props: any) => {
     return () =>unsub();
   },[]);
 
+  React.useEffect(()=>{
+    if(response?.type == "success"){
+      console.log(response)
+      const {id_token} = response.params;
+     
+      const credential = GoogleAuthProvider.credential(id_token);
+      // console.log(credential)
+      //login do user 
+      signInWithCredential(auth,credential)
+      .catch(e=>console.error(e));
+    }
+  },[response])
+  
+  // React.useEffect(()=>{
+  //   if(userInfo){
+  //     props.navigation?.navigate("Splash");
+  //   }
+
+  // },[userInfo])
+
   
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.text}>Bem Vindo Garçom</Text>
       <TouchableOpacity style={styles.button} onPress={()=>promptAsync()}>
-        <Text style={styles.buttonText}>rafa com Google</Text>
+      <FontAwesome name="google-plus-square" size={35} color="#f4f7fc" />
+        <Text style={styles.buttonText}>Google</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button} >
-        <Text style={styles.buttonText}>Login com Facebook</Text>
-      </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
+    backgroundColor:'#2d2f31'
   },
   button: {
+    flexDirection:'row',
+    alignItems: 'center',
+    justifyContent:'space-around',
     backgroundColor: '#4285F4', // Cor do Google
     padding: 15,
     margin: 10,
-    borderRadius: 5,
+    borderRadius: 15,
     width: 200,
-    alignItems: 'center',
   },
   buttonText: {
-    color: 'white',
+    color: '#f4f7fc',
     fontWeight: 'bold',
   },
+  text :{
+    color: '#f4f7fc',
+    fontSize:30,
+    fontFamily:"OpenSans-Bold"
+  }
 });
 
-export default LoginScreen;
+
+
+const mapStateProps = ({ pedidos, user }: { pedidos: any, user: any}) => {
+  return {
+   
+  };
+};
+
+
+const mapDispatchProps = (dispatch: any) => {
+  return {
+    onAdd_User: (user:any) => dispatch(add_Func(user))
+  };
+};
+
+export default connect(null,mapDispatchProps )(LoginScreen);
