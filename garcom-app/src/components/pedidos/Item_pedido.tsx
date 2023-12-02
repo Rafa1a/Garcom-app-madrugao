@@ -8,9 +8,9 @@ import {
   View,
   TouchableOpacity, TouchableWithoutFeedback
 } from 'react-native';
-import { ItemProps } from '../interface/inter';
+import { ItemProps } from '../../interface/inter';
 import { connect } from 'react-redux';
-import { setTotal_Valor } from '../store/action/pedidos';
+import { setTotal_Valor } from '../../store/action/pedidos';
 import { Icon } from '@rneui/themed';
 
 
@@ -19,7 +19,7 @@ export default (props: ItemProps) => {
     // funcao que retorna caso nao seja lanches ou hotdogs
     // if(props.categoria === "bar" || props.categoria === "bebidas"  || props.categoria_2 === "porcoes" ) {
     //     return
-    // }
+    // } 
     //adicionais []
     const adicional_array = props.adicionar_p ? (
         props.adicionar_p.map((a: any, index: number) => `${a}, `)

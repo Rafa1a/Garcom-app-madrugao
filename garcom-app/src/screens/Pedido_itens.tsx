@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Header_pedido from '../components/Header_Pedido';
-import Lista from '../components/Lista_Pedido'
+import Header_pedido from '../components/headers/Header_Pedido';
+import Lista from '../components/pedidos/Lista_Pedido'
 import { connect } from 'react-redux';
 import { fetchatualizar_pedido_mesa} from '../store/action/pedidos' 
 import { pedido_itens_comp } from '../interface/inter';

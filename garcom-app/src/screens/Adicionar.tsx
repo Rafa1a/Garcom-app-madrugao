@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { Avatar, Button, Icon, ListItem, Tab, TabView } from '@rneui/themed';
-import Adicionar_list from '../components/Adicionar_retirar_list';
+import Adicionar_list from '../components/adicionar_retirar/Adicionar_retirar_list';
 import { adicionar_screen } from '../interface/inter_adicionar';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../store/auth';

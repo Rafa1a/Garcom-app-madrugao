@@ -9,8 +9,8 @@ import {
   TextInput,
   Alert
 } from 'react-native';
-import Header_pedido from '../components/Header_Pedido';
-import Lista from '../components/Lista_Pedido_adicionar';
+import Header_pedido from '../components/headers/Header_Pedido';
+import Lista from '../components/adicionar_retirar/Lista_Pedido_adicionar';
 import { connect } from 'react-redux';
 import { pedido_itens_comp,cartao } from '../interface/inter';
 import { Switch } from '@rneui/themed';

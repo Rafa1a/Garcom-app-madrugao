@@ -11,9 +11,9 @@ import {
   Alert
 } from 'react-native';
 import { Button } from '@rneui/themed';
-import { HeaderPedidosProps, pedido_inter } from '../interface/inter';
+import { HeaderPedidosProps, pedido_inter } from '../../interface/inter';
 import { connect } from 'react-redux';
-import List_mesas from './List_mesas';
+import List_mesas from '../List_mesas';
 
 // Header de Pedidos simples
 const Header = ({ call, mesa, navigation, mesas }: HeaderPedidosProps) => {

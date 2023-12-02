@@ -11,10 +11,10 @@ import {
   FlatList
 } from 'react-native';
 import Adicionais_itens from './adicionais_retirar_itens';
-import { adicionais, adicionar_comp } from '../interface/inter_adicionar';
+import { adicionais, adicionar_comp } from '../../interface/inter_adicionar';
 import { connect } from 'react-redux';
-import { fetchMesas, setAdicionar_pedido } from '../store/action/adicionar_pedido';
-import { Item } from '../interface/inter';
+import {  setAdicionar_pedido } from '../../store/action/adicionar_pedido';
+import { Item } from '../../interface/inter';
 
 const adicionar_retirar = (props: adicionar_comp) => {
   /////////////////// controle modal/////////////////////////

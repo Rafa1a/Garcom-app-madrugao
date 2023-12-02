@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { Alert, Dimensions, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { Avatar, Icon } from '@rneui/themed';
-import Number from './Number';
-import { pedido_props } from '../interface/inter';
+import Number from '../Number';
+import { pedido_props } from '../../interface/inter';
 import { connect } from 'react-redux';
-import { fetchExcluirPedido_Mesa } from '../store/action/pedidos';
+import { fetchExcluirPedido_Mesa } from '../../store/action/pedidos';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { fetch_mesa_status_user_call } from '../store/action/mesas';
-import { fetch_user_call } from '../store/action/user';
+import { fetch_mesa_status_user_call } from '../../store/action/mesas';
+import { fetch_user_call } from '../../store/action/user';
 
 const Pedido = (props: pedido_props) => {
  

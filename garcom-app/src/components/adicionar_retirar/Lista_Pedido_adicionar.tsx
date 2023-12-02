@@ -1,10 +1,10 @@
 import React from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import Item_pedido from './Item_pedido';
-import { fetchExcluir_item, setTotal_Valor } from '../store/action/pedidos';
-import { lista_pedido_adicionar } from '../interface/inter_adicionar';
-import { setAdicionar_pedido } from '../store/action/adicionar_pedido';
+import Item_pedido from '../pedidos/Item_pedido';
+import { fetchExcluir_item, setTotal_Valor } from '../../store/action/pedidos';
+import { lista_pedido_adicionar } from '../../interface/inter_adicionar';
+import { setAdicionar_pedido } from '../../store/action/adicionar_pedido';
 
 class Lista extends React.Component<lista_pedido_adicionar> {
 

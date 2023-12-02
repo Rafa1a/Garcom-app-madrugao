@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchpedidos,setPedidos_MESA,startPedidosListener} from '../store/action/pedidos';
 import Pedido from '../components/Pedido'
 import { pedido_inter, user_fun } from '../interface/inter';
-import Header from '../components/Header_pedidos';
+import Header from '../components/headers/Header_pedidos';
 import { NavigationProp } from '@react-navigation/native';
 
 interface Props {
