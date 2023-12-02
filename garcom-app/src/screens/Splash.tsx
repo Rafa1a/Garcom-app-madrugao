@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 import { startCardapio } from '../store/action/cardapio';
 import { startPedidosListener } from '../store/action/pedidos';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { startUser_func } from '../store/action/user';
+import { startMesas } from '../store/action/mesas';
 
-const Splash = ({ navigation, pedidos, cardapio, onFetchPedidos, onFetchCardapio }: any) => {
+const Splash = ({ navigation, pedidos, cardapio, onFetchPedidos, onFetchCardapio,onFetchUser_func,onFetchMesas }: any) => {
   const [loaded, setLoaded] = useState(false);
   const [loaded1, setLoaded1] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -39,6 +41,8 @@ const Splash = ({ navigation, pedidos, cardapio, onFetchPedidos, onFetchCardapio
           // funcoes q retornam pedidos cardapio e users
           await onFetchPedidos();
           await onFetchCardapio();
+          await onFetchUser_func();
+          await onFetchMesas();
           // Atualize o estado para evitar o loop
           setLoaded(true);
           
@@ -108,6 +112,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     onFetchPedidos: () => dispatch(startPedidosListener()),
     onFetchCardapio: () => dispatch(startCardapio()),
+    onFetchUser_func: () => dispatch(startUser_func()),
+    onFetchMesas: () => dispatch(startMesas()),
   };
 };
 

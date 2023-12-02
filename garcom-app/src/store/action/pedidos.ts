@@ -64,21 +64,7 @@ export const fetchpedidos =  () =>{
         text: 'Ocorreu um erro ao contatar o servidor dos Pedidos'
       }))
     }
-    ///////////ANTIGO  data base///////////
-      // axios.get('/pedidos.json')
-      // .catch(err => console.log(err))
-      // .then((res:any) => {
-          
-      //     const rawPedidos = res.data
-      //     const pedidos = []
-      //     for (let key in rawPedidos) {
-      //         pedidos.push({
-      //             ...rawPedidos[key],
-      //             id: key
-      //         })
-      //     }
-      //     dispatch(setPedidos(pedidos))
-      // })
+    
   }
 }
 

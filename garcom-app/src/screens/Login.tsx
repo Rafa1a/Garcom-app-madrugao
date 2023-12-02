@@ -20,7 +20,9 @@ import { auth } from '../store/auth';
 import { FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
-import { add_Func, fetchuser_get } from '../store/action/user';
+import { add_Func, fetchuser_get, setUser_login } from '../store/action/user';
+// updates
+// import * as Updates from 'expo-updates';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -89,6 +91,7 @@ const LoginScreen = (props: any) => {
           if(user){
             ////////////////definir user 
             setUserInfo(user);
+            props.onSetUser_login(user)
             // console.log(JSON.stringify(user,null,2))
             /////////////// Add_user
             const new_user = {
@@ -152,16 +155,17 @@ const LoginScreen = (props: any) => {
         // Utilizando array_func.some para verificar se algum objeto possui a propriedade uid igual ao userInfo.uid
     
         const uid_func = array_func.some((i) => i.uid === userInfo.uid);
+        const opcoes_user = array_func.find(i=> i.opcoes === true)
+        // console.log(opcoes_user)
         
           if(uid_func){
-            
             props.navigation?.navigate("Splash");
-            // console.log('login');
-          }else if (array_func.length < 4) {
+            console.log('login');
+          }else if (array_func.length <= opcoes_user.quantidade) {
             await props.onAdd_User(add_func);
             props.navigation?.navigate("Splash");
             // console.log('add');
-          }else {
+          }else {  
             setLoadign_icon(false)
             Alert.alert('Você não tem permissão')
           }
@@ -227,6 +231,7 @@ const mapDispatchProps = (dispatch: any) => {
   return {
     onAdd_User: (user:any) => dispatch(add_Func(user)),
     onFetch_user: () => dispatch(fetchuser_get()),
+    onSetUser_login: (user:any) => dispatch(setUser_login(user)),
 
   };
 };

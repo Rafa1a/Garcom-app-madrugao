@@ -1,12 +1,13 @@
 import { user_fun } from "../../interface/inter"
-import { GET_USER } from "../action/actionTypes"
+import { GET_USER, LOGIN_USER } from "../action/actionTypes"
 
 interface actions {
     type :string,
     payload:any
 }
 const initialState:any = {
-    users:undefined
+    users:undefined,
+    user:undefined
 }
 
 
@@ -16,6 +17,11 @@ const reducer = (state = initialState, action:actions) =>{
             return {
                 ...state,
                 users:action.payload
+            }
+        case LOGIN_USER : 
+            return {
+                ...state,
+                user:action.payload
             }
         default :
             return state

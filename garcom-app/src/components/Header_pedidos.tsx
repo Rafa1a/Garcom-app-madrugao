@@ -12,18 +12,13 @@ import {
 } from 'react-native';
 import { Button } from '@rneui/themed';
 import { HeaderPedidosProps, pedido_inter } from '../interface/inter';
-import { fetchMesas } from '../store/action/adicionar_pedido';
 import { connect } from 'react-redux';
 import List_mesas from './List_mesas';
 
 // Header de Pedidos simples
-const Header = ({ outros, online, mesa, navigation, onFetchMesas, mesas }: HeaderPedidosProps) => {
+const Header = ({ call, mesa, navigation, mesas }: HeaderPedidosProps) => {
   
-  // busacar mesas no banco de dados
-  useEffect(()=>{
-    onFetchMesas();
-    
-  },[])
+ 
   // console.log(mesas)
   const [visible, setVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState(null);
@@ -34,16 +29,18 @@ const Header = ({ outros, online, mesa, navigation, onFetchMesas, mesas }: Heade
 
   const handleSelectTable = (table:any) => {
     setSelectedTable(table);
-  };
-  const numero_mesa = mesas.sort((a:any, b:any) =>  a.numero_mesa - b.numero_mesa)
+  }; 
+  const array_mesas = mesas
+  const numero_mesa = array_mesas.sort((a:any, b:any) =>  a.numero_mesa - b.numero_mesa)
   //confirma caso tenha seleciona oo numero da mesa ou nao
+ 
   const confirmarSelecao = () => {
     if (selectedTable === null) {
       // Mostrar um alerta pedindo para escolher uma mesa
       Alert.alert('Escolha uma mesa', 'Por favor, escolha uma mesa antes de confirmar.');
     } else {
       // Salvar a mesa selecionada
-      navigation?.navigate('Adicionar', { numero_mesa: selectedTable,mesa:mesa });
+      navigation?.navigate('Adicionar', { numero_mesa: selectedTable, mesa:mesa });
       setSelectedTable(null)
       toggleModal();
     }
@@ -51,29 +48,10 @@ const Header = ({ outros, online, mesa, navigation, onFetchMesas, mesas }: Heade
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.text}>
-        {outros ? 'Outros' : null}
-        {online ? 'Online' : null}
         {mesa ? 'Mesa' : null}
+        {call ? 'Chamadas' : null}
       </Text>
       
-      {outros ? (
-        <Button
-        size='md'
-        radius='lg'
-        type='outline'
-        icon={{
-          name: 'add',
-          type: 'ionicons',
-          size: 25,
-          color: 'white',
-        }}
-        buttonStyle={{ borderColor: 'tomato', backgroundColor: '#2d2f31' }}
-        onPress={() => {
-          navigation?.navigate('Adicionar');
-        }}
-      />
-      ) :null}
-
       {mesa? 
       <Button
         size='md'
@@ -199,9 +177,9 @@ const mapStateProps = ({ pedidos }: { pedidos: any }) => {
     mesas:pedidos.mesas
   };
 };
-const mapDispatchProps = (dispatch: any) => {
-  return {
-    onFetchMesas : () => dispatch(fetchMesas()),
-  };
-};
-export default connect(mapStateProps,mapDispatchProps)(Header)
+// const mapDispatchProps = (dispatch: any) => {
+//   return {
+//     onFetchMesas : () => dispatch(fetchMesas()),
+//   };
+// };
+export default connect(mapStateProps,null)(Header)

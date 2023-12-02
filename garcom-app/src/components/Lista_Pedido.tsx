@@ -77,10 +77,6 @@ class Lista extends React.Component<lista_pedido> {
       this.props.onFitchTotal_valor(parseFloat((total).toFixed(2)));
 
     }  
-
-
-
-    
     // console.log(total)
     // console.log(this.props.pedidos_mesa)
     // console.log(this.props.ids)

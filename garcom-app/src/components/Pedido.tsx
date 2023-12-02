@@ -25,7 +25,7 @@ const Pedido = (props: pedido_props) => {
         cartao:props.cartao,
         dinheiro:props.dinheiro
         })
-  };
+  };  
   // ususario ou mesa como retorno da const 
   const userormesa = props.numero_mesa?
   //styles seria preto ou branco 

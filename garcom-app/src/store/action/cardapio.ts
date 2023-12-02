@@ -52,21 +52,7 @@ export const fetchcardapio =  () =>{
           text: 'Ocorreu um erro ao contatar o servidor dos Cardapios'
         }))
       }
-      ///////////ANTIGO  data base///////////
-        // axios.get('/pedidos.json')
-        // .catch(err => console.log(err))
-        // .then((res:any) => {
-            
-        //     const rawPedidos = res.data
-        //     const pedidos = []
-        //     for (let key in rawPedidos) {
-        //         pedidos.push({
-        //             ...rawPedidos[key],
-        //             id: key
-        //         })
-        //     }
-        //     dispatch(setPedidos(pedidos))
-        // })
+     
     }
   }
   //atualizacao do cardapio automatico

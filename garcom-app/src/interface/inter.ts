@@ -15,13 +15,10 @@ export interface HeaderPedidoProps {
   adicionar?:boolean
 }
 export interface HeaderPedidosProps {
-  outros?: boolean;
-  online?: boolean;
   mesa?: boolean;
+  call?:boolean;
   navigation ?: NavigationProp<any,any>;
   mesas:[],
-  onFetchMesas:()=>void
-
 }
 export interface ItemProps {
   categoria?: string;
@@ -63,14 +60,23 @@ export interface pedido_props {
     status_chapeiro?:boolean
     status_porcoes?:boolean
     status_bar?:boolean
-    onFetchPedidos_Excluir_Mesa:(id:string[])=>void
-
+    onFetchPedidos_Excluir_Mesa?:(id:string[])=>void
+    user_call?:boolean
+    users?:user_fun[];
+    onUpMesa_user_call?:(id:string)=>void
+    onUpUser_call?:(id:string,number:number)=>void
+    setIdstate?:(state:string)=>void
+    user_login?:user_fun
+    
   }
 export interface user_fun{
-  id            : string
-  image_fun      : string
-  name_fun       : string,
- 
+  id:string;
+  opcoes?:boolean;
+  quantidade?:number;
+  image_fun?:string;
+  name_func:string;
+  uid?:string;
+  call:number;
 }
  export interface Item {
     id:string
@@ -134,4 +140,11 @@ export interface user_fun{
     total:number
     adicionar_pedido:Item[]
     inicial_state_mesas:pedido_inter
+  }
+
+  export interface Mesas {
+    id:string;
+    numero_mesa:number;
+    status_call:boolean
+    status_user_call:boolean
   }

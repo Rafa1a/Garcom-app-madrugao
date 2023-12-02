@@ -11,6 +11,8 @@ import { setAdicionar_pedido } from "../store/action/adicionar_pedido";
 import { connect } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import Login from "../screens/Login";
+import Mesa_call from "../screens/Mesa_call";
+
 //////////////////////////////////////////////////////////////////////
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator()
@@ -70,7 +72,19 @@ const MenuTab = () => {
           ),
         }}
       />
-      {/* {/* <Tab.Screen
+      
+      <Tab.Screen
+        name="Mesa_Call"
+        component={Mesa_call}
+        options={{
+          tabBarLabel: 'Call',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="hand-wave" size={24} color={color} />
+          ),
+        }} 
+      /> 
+
+     {/* {/* <Tab.Screen
         name="Pedidos_Online"
         component={Pedidos_Online}
         options={{
@@ -80,17 +94,6 @@ const MenuTab = () => {
           ),
         }}
       /> */}
-      <Tab.Screen
-        name="Pedidos_Outros"
-        component={Adicionar}
-        options={{
-          tabBarLabel: 'Outros',
-          tabBarIcon: ({ color }) => (
-            <Fontisto name="user-secret" color={color} size={26} />
-          ),
-        }}
-      /> 
-     
     </Tab.Navigator>
   );
 }

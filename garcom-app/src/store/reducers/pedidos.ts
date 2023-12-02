@@ -1,4 +1,3 @@
-import { setAdicionar_pedido } from './../action/adicionar_pedido';
 import { initialState,actions } from "../../interface/inter_actions"
 import { SET_ADICIONAR_PEDIDO_ITENS, SET_MESAS, SET_PEDIDOS, SET_PEDIDOS_MESA, SET_TOTALVALOR } from "../action/actionTypes"
 
