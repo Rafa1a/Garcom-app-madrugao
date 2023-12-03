@@ -35,10 +35,9 @@ const Pedido = (props: pedido_props) => {
     const isItemPresent = props.state_click.includes(itemId);
     
     // Verfica se o numero da mesa é igual aos q estao presentes
-    const array_state = props.state_chapeiro.find(item => {
+    const array_state = props.state_all_array.find(item => {
       return props.state_click.some(i=> item.id=== i)
     })
-    // console.log(array_state);
     
     const user_logado = props.users.find(user => user.uid === props.user_login.uid)
     /////////////////////////////////////////////////////////////////////////
@@ -51,7 +50,6 @@ const Pedido = (props: pedido_props) => {
     else if(array_state?.numero_mesa === props.numero_mesa || !array_state ){
       // Cria uma cópia do array atual
       const newArray = [...props.state_click];
-      
       if (isItemPresent) {
         // Se o item já está presente, remove-o
         const index = newArray.indexOf(itemId);

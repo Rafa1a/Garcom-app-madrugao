@@ -75,7 +75,7 @@ export interface pedido_props {
     drinks?:boolean
     state_click?:string[]
     setState_click?:(state_click:string[])=>void
-    state_chapeiro?: pedido_inter[];
+    state_all_array?: pedido_inter[];
 
     
   }

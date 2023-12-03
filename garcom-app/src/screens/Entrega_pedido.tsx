@@ -159,10 +159,10 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
               // atualizacao em tempo real de qual user atende qual pedido (mesa)
 
               if(users.find(user => user.entregando?.includes(item.id))){
-                return <Entrega   users={users} state_chapeiro={state_chapeiro} id={item.id} key={item.id} numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click}
+                return <Entrega   users={users} state_all_array={consolidatedArray} id={item.id} key={item.id} numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click}
                 state_click={state_click}/>;
               }else {
-                return <Entrega  chapeiro users={users} state_chapeiro={state_chapeiro} id={item.id} key={item.id} styles numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click} state_click={state_click}/>;
+                return <Entrega  chapeiro users={users} state_all_array={consolidatedArray} id={item.id} key={item.id} styles numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click} state_click={state_click}/>;
               }
                   
           }}
@@ -182,10 +182,10 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
 
               // atualizacao em tempo real de qual user atende qual pedido (mesa)
               if(users.find(user => user.entregando?.includes(item.id))){
-                return <Entrega   users={users} state_chapeiro={state_chapeiro} id={item.id} key={item.id} numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click}
+                return <Entrega   users={users} state_all_array={consolidatedArray} id={item.id} key={item.id} numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click}
                 state_click={state_click}/>;
               }else {
-                return <Entrega  drinks users={users} state_chapeiro={state_chapeiro} id={item.id} key={item.id} styles numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click} state_click={state_click}/>;
+                return <Entrega  drinks users={users} state_all_array={consolidatedArray} id={item.id} key={item.id} styles numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click} state_click={state_click}/>;
               }
                   
           }}
@@ -205,10 +205,10 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
 
               // atualizacao em tempo real de qual user atende qual pedido (mesa)
               if(users.find(user => user.entregando?.includes(item.id))){
-                return <Entrega   users={users} state_chapeiro={state_chapeiro} id={item.id} key={item.id} numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click}
+                return <Entrega   users={users} state_all_array={consolidatedArray} id={item.id} key={item.id} numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click}
                 state_click={state_click}/>;
               }else {
-                return <Entrega  porcoes users={users} state_chapeiro={state_chapeiro} id={item.id} key={item.id} styles numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click} state_click={state_click}/>;
+                return <Entrega  porcoes users={users} state_all_array={consolidatedArray} id={item.id} key={item.id} styles numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click} state_click={state_click}/>;
               }
                   
           }}
