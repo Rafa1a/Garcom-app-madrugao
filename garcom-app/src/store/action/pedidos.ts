@@ -19,6 +19,7 @@ export const startPedidosListener = () => {
         snapshot.forEach((doc) => {
             cities.push(doc.data());
         });
+        // console.log("cities ", cities)
         // if(cities.length === 1) {
         //   onDisplayNotification()
         // }
@@ -53,7 +54,7 @@ export const fetchpedidos =  () =>{
         };
       }); 
       pedidos.sort((a:any, b:any) => b.ordem - a.ordem)
-      // console.log("pedidossssssss")
+      // console.log("pedidos :",pedidos )
       
        dispatch(setPedidos(pedidos))
       

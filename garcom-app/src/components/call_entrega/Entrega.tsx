@@ -21,20 +21,34 @@ const Pedido = (props: pedido_props) => {
   :
   <Number number={props.numero_mesa} />
 
-  const user_logado = props.users.find(user => user.uid === props.user_login.uid)
+  // busacar id em entregando do user q esta atentendo o pedido (mesa) especifica
+  // usar para aparecer a imagem.
+
+  const numero_mesa_user_entregando = props.users.find(user => {
+    return user.entregando?.includes(props.id)
+  })
 
   const func_click = () => {
     const itemId = props.id;
   
     // Verifica se o item já está presente no array
     const isItemPresent = props.state_click.includes(itemId);
+    
     // Verfica se o numero da mesa é igual aos q estao presentes
     const array_state = props.state_chapeiro.find(item => {
       return props.state_click.some(i=> item.id=== i)
     })
     // console.log(array_state);
-
-    if(array_state?.numero_mesa === props.numero_mesa || !array_state ){
+    
+    const user_logado = props.users.find(user => user.uid === props.user_login.uid)
+    /////////////////////////////////////////////////////////////////////////
+    // verifica se ja esta sendo atendido por outro user
+    if(numero_mesa_user_entregando && numero_mesa_user_entregando?.uid !==  user_logado?.uid){
+      Alert.alert(`Esta sendo atendido por ${numero_mesa_user_entregando?.name_func}`)
+    }
+    /////////////////////////////////////////////////////////////////////////
+    //verifica se o array state estiver undefinid pode adicionar pq esta vazio ou se for o mesmo numero de mesa. 
+    else if(array_state?.numero_mesa === props.numero_mesa || !array_state ){
       // Cria uma cópia do array atual
       const newArray = [...props.state_click];
       
@@ -50,11 +64,12 @@ const Pedido = (props: pedido_props) => {
 
       props.setState_click(newArray);
 
-    }else {
+    }
+    /////////////////////////////////////////////////////////////////////////
+    // se não for o mesmo numero de mesa :
+    else {
       Alert.alert('Você só pode atender o mesmo numero de mesa, de uma unica vez')
     }
-  
-  
     // console.log(props.state_click);
   };
 
@@ -69,19 +84,43 @@ const Pedido = (props: pedido_props) => {
           </View>
         </View>
         
+        {props.chapeiro?
+        <Avatar size={35} source={require('../../assets/image/lanche.png')} 
+          containerStyle={{
+            position:'absolute',
+            bottom:5,
+            right:70
+          }}/>:null
+        }
+        {props.porcoes?
+        <Avatar size={35} source={require('../../assets/image/porcao.png')} 
+          containerStyle={{
+            position:'absolute',
+            bottom:5,
+            right:70
+          }}/>:null
+        }
+        {props.drinks?
+        <Avatar size={35} source={require('../../assets/image/drink.png')} 
+          containerStyle={{
+            position:'absolute',
+            bottom:5,
+            right:70
+          }}/>:null
+        }
       </TouchableOpacity>
-      {props.chapeiro? user_logado?
+      {props.chapeiro? 
+      null:numero_mesa_user_entregando?
       <Avatar
         size={100}
         rounded
-        source={{uri:user_logado.image_fun}}
+        source={{uri:numero_mesa_user_entregando.image_fun}}
         containerStyle={{
           width: 45,
           margin: 7,
           aspectRatio: 1,
         }}
-      />:null
-      :null}
+      />:null}
     </SafeAreaView>
   
   );
@@ -94,7 +133,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height:Dimensions.get('window').width*1/5.5,
-    width: "100%"
+    width: "100%",
+    marginBottom:30,
   },
   container: {
     flex:1,

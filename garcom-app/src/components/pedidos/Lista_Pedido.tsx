@@ -56,10 +56,20 @@ class Lista extends React.Component<lista_pedido> {
             }
         });
     }
-
-    // console.log(itensPorMesa);
+    // Pedidos para entrega 
+    const pedidos_entrega = this.props.pedidos.filter(itens => {
+      return this.props.ids.some(id => itens.id === id);
+    });
+    
+    // Usando flatMap para obter um único array de itens
+    const itens_entrega = pedidos_entrega.flatMap(itens => itens.itens);
+    
+    // console.log(itens_entrega);
+    // console.log(itens_entrega)
+    // console.log(itensPorMesa[this.props.numero_mesa]);
+    
     //passando os dados correto caso seja mesa
-    const mesa_outros_dada = this.props.numero_mesa? itensPorMesa[this.props.numero_mesa]:objeto_pedido?.itens
+    const mesa_outros_dada = this.props.numero_mesa? this.props.chapeiro_bar_porcoes ? itens_entrega : itensPorMesa[this.props.numero_mesa]:objeto_pedido?.itens
     //passando a informacao correta caso seja mesa
     const mesa_outros_excluir = this.props.numero_mesa? true : false
 

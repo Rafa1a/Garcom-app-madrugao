@@ -18,7 +18,7 @@ import { pedido_itens_comp } from '../interface/inter';
    
    
   render() {
-    const { numero_mesa, image_on, name_on, id, ids, rua, numero, pegar_local,dinheiro,pix,cartao } = this.props.route.params;
+    const { numero_mesa, image_on, name_on, id, ids, rua, numero, pegar_local,dinheiro,pix,cartao, chapeiro_bar_porcoes } = this.props.route.params;
     
     const atualizar_pedido_mesa = () =>{
       this.props.onAtualizarPedido_Mesa(ids)
@@ -42,7 +42,7 @@ import { pedido_itens_comp } from '../interface/inter';
       cartao={cartao}
       />
       {/*recebe o id depois faz um find em pedidos qual id === id_pedidos*/}
-      <Lista  numero_mesa={numero_mesa} ids={ids}/> 
+      <Lista  numero_mesa={numero_mesa} ids={ids} chapeiro_bar_porcoes={chapeiro_bar_porcoes}/> 
       {/* botao para atualizar o status_$ do PEDIDO */}
       
       <View style={styles.totalContainer}>
@@ -50,9 +50,11 @@ import { pedido_itens_comp } from '../interface/inter';
         <Text style={styles.totalValue}>${this.props.total}</Text>
       </View>
       <View style={styles.divider} />
+      {chapeiro_bar_porcoes ? null : 
       <TouchableOpacity onPress={atualizar_pedido_mesa}  style={styles.button}>
             <Text style={styles.buttonText}>Finalizado</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>}
+     
       
       </ScrollView>
     </SafeAreaView>

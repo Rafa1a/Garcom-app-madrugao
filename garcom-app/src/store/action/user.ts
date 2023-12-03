@@ -3,7 +3,7 @@ import {GET_USER, LOGIN_USER} from './actionTypes'
 import { Dispatch } from 'redux'
 import { user_fun} from '../../interface/inter'
 
-import { collection, addDoc,setDoc,doc,onSnapshot,getDocs,query, where, updateDoc} from "firebase/firestore"; 
+import { collection, addDoc,setDoc,doc,onSnapshot,getDocs,query, where, updateDoc,arrayUnion} from "firebase/firestore"; 
 import { db } from '../auth';
 import { setMessage } from './message';
 
@@ -97,6 +97,88 @@ export const fetch_user_call = (id:string,number:number) => {
    
   }
 } 
+// Atualizar user entregando variavel momentania :
+export const fetch_user_entregando = (id:string,array:string[]) => {
+  return async (dispatch:any)=>{
+    // console.log(number)
+    try{
+        const pedidoRef = doc(db, 'user_func', id);
+        await updateDoc(pedidoRef, {
+          entregando: array
+      });
+    }catch (e) {
+      console.error("Error fetching documents: ", e);
+      dispatch(setMessage({
+        title: 'Error',
+        text: 'Ocorreu um erro ao atualizar user call'
+      }))
+    }
+   
+  }
+} 
+// Atualizar user chapeiro :
+export const fetch_user_chapeiro = (id:string,ids_pedidos:string[]) => {
+  return async (dispatch:any)=>{
+    // console.log(number)
+    try{
+      for(const ids of ids_pedidos){
+        const pedidoRef = doc(db, 'user_func', id);
+        await updateDoc(pedidoRef, {
+          chapeiro : arrayUnion(ids)
+      });
+      }
+    }catch (e) {
+      console.error("Error fetching documents: ", e);
+      dispatch(setMessage({
+        title: 'Error',
+        text: 'Ocorreu um erro ao atualizar user call'
+      }))
+    }
+   
+  }
+} 
+// Atualizar user bar :
+export const fetch_user_bar = (id:string,ids_pedidos:string[]) => {
+  return async (dispatch:any)=>{
+    // console.log(number)
+    try{
+      for(const ids of ids_pedidos){
+        const pedidoRef = doc(db, 'user_func', id);
+        await updateDoc(pedidoRef, {
+          bar : arrayUnion(ids)
+      });
+      }
+    }catch (e) {
+      console.error("Error fetching documents: ", e);
+      dispatch(setMessage({
+        title: 'Error',
+        text: 'Ocorreu um erro ao atualizar user call'
+      }))
+    }
+   
+  }
+}
+// Atualizar user porcoes :
+export const fetch_user_porcoes = (id:string,ids_pedidos:string[]) => {
+  return async (dispatch:any)=>{
+    // console.log(number)
+    try{
+      for(const ids of ids_pedidos){
+        const pedidoRef = doc(db, 'user_func', id);
+        await updateDoc(pedidoRef, {
+          porcoes : arrayUnion(ids)
+      });
+      }
+    }catch (e) {
+      console.error("Error fetching documents: ", e);
+      dispatch(setMessage({
+        title: 'Error',
+        text: 'Ocorreu um erro ao atualizar user call'
+      }))
+    }
+   
+  }
+}
 export const setUser =  (users:user_fun[]) => {
     return { 
         type:GET_USER,

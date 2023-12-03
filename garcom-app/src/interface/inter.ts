@@ -71,6 +71,8 @@ export interface pedido_props {
     user_login?:user_fun
     //entrega funcoes
     chapeiro?:boolean
+    porcoes?:boolean
+    drinks?:boolean
     state_click?:string[]
     setState_click?:(state_click:string[])=>void
     state_chapeiro?: pedido_inter[];
@@ -88,12 +90,13 @@ export interface user_fun{
   chapeiro?:string[]
   bar?:string[]
   porcoes?:string[]
+  entregando?:string[]
 }
  export interface Item {
     id:string
     name_p: string;
     categoria: "comidas" | "bebidas" | "bar";
-    categoria_2?: string;
+    categoria_2?: "lanches" | "hotdogs" | "porcoes";
     retirar_p: string[];
     adicionar_p: string[];
     quantidade:number;
@@ -137,6 +140,8 @@ export interface user_fun{
     numero_mesa:number
     onFitchTotal_valor:(total:number)=>void
     onFitchExcluir_Item:(id:string,item:ItemProps)=>void
+    //entrega de pedido
+    chapeiro_bar_porcoes?:boolean
   }
  
   export interface pedido_itens_comp{
