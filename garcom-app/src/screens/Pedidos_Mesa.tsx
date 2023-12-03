@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, FlatList, Dimensions, ScrollView } from 'react-native';
+import {  StyleSheet, Text, View, FlatList, Dimensions, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchpedidos,setPedidos_MESA,startPedidosListener} from '../store/action/pedidos';
 import Pedido from '../components/Pedido'
 import { pedido_inter, user_fun } from '../interface/inter';
 import Header from '../components/headers/Header_pedidos';
 import { NavigationProp } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   pedidos: pedido_inter[];
@@ -44,9 +45,9 @@ const Pedidos = ({ pedidos,pedidos_mesa,onFetchPedidos_Mesa,navigation }:Props) 
     }, []);
     
     // console.log(pedidosAgrupados[0]);
-    onFetchPedidos_Mesa(pedidosAgrupados)
-  }, [pedidos])
-  
+    onFetchPedidos_Mesa(pedidosAgrupados) 
+  }, [pedidos]) 
+  // console.log(pedidos_mesa[0].itens_all[1].itens) 
   return (
     <SafeAreaView style={styles.container}>
    

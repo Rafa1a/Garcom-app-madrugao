@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, FlatList, Dimensions, ScrollView, Alert } from 'react-native';
+import {  StyleSheet, Text, View, FlatList, Dimensions, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchpedidos,setPedidos_MESA,startPedidosListener} from '../store/action/pedidos';
 import { Mesas, pedido_inter, user_fun } from '../interface/inter';
@@ -11,6 +11,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { fetch_user_call } from '../store/action/user';
 import { fetch_mesa_status_call } from '../store/action/mesas';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   status_chapeiro?:boolean;
@@ -26,21 +27,25 @@ interface Props {
 const Pedidos = ({ mesas, users,user_login,pedidos_mesa,navigation,onUpUser_call,onUpMesa_user_call }:Props) => {
   // console.log(users);
   // console.log(mesas);
-  //funcao para atualizar o stado do usario :
+  //funcao para atualizar o estado do usario :
   const [idstate, setIdstate] = useState<string>("") 
 
+  //condicao caso ja esteja fazendo um atendimento 
   useEffect(()=>{
     const user_logado = users.find(user => user.uid === user_login.uid)
     // console.log(user_logado)
+
+    //caso o user esteja atendendo
     if(user_logado.call !== 0 && user_logado.call !== undefined){
       const numero_mesa_ = mesas.find(mesa=>mesa.numero_mesa === user_logado.call)
+      //definir o estado
       setIdstate(numero_mesa_.id)
-
     }
   },[])
-  const user_logado = users.find(user => user.uid === user_login.uid)
+
   // console.log("user logado", user_logado)
   // console.log("state id ", idstate)
+  const user_logado = users.find(user => user.uid === user_login.uid)
   //funcao para atualizar mesa e users para finalizar o atendimento.
   const func_update_x = () => { 
     if(idstate){
@@ -59,10 +64,10 @@ const Pedidos = ({ mesas, users,user_login,pedidos_mesa,navigation,onUpUser_call
   const pedido_mesa_finalizar = numero_mesa_?pedidos_mesa.find(mesa => mesa.numero_mesa === numero_mesa_.numero_mesa):null
   // console.log(pedido_mesa_finalizar)
 
+  // navegar para a listagem dos pedidos podendo mudar o status do pedido para finalizado
   const func_pedido_finalizar = () =>{
     if(pedido_mesa_finalizar){
       navigation.navigate('Pedido',{ 
-        id:pedido_mesa_finalizar.id,
         ids: pedido_mesa_finalizar.ids,
         numero_mesa: pedido_mesa_finalizar.numero_mesa, 
         })
@@ -70,6 +75,7 @@ const Pedidos = ({ mesas, users,user_login,pedidos_mesa,navigation,onUpUser_call
       Alert.alert("Cliente não tem Pedido")
     }
   }
+  //adicionar novos itens
   const func_pedido_adicionar = () =>{
     navigation?.navigate('Adicionar', { numero_mesa: numero_mesa_.numero_mesa, mesa:true });
   }
@@ -81,7 +87,6 @@ const Pedidos = ({ mesas, users,user_login,pedidos_mesa,navigation,onUpUser_call
       
       <FlatList
         data={mesas.filter(item => item.status_call===true)}
-        //item ja retorna apenas os status_chapeiro de acordo com o back0end query
         keyExtractor={item => `${item.id}`}
         renderItem={({ item,index }) => {
             // condicoes para realizar a pesquisa e filtro sobre os resultados obtidos

@@ -25,11 +25,11 @@ const Pedido = (props: pedido_props) => {
   const numero_mesa_user_call = props.users.find(user => user.call === props.numero_mesa || null)
   const user_logado = props.users.find(user => user.uid === props.user_login.uid)
 
-
+  //atualizar os status_call para false e status_user_call para false e ainda atualizar para call 0 o valor no user, ou seja resetar os valores para ele pode fazer novos atendimentos
   const func_Uptades = () => {
     const numero_mesa_user_call = props.users.find(user => user.call === props.numero_mesa || null)
     // console.log(numero_mesa_user_call)
-
+    // caso ja esteja sendo atendido
     if(numero_mesa_user_call && numero_mesa_user_call.uid !== user_logado.uid){
       Alert.alert(`Esta sendo atendido por ${numero_mesa_user_call.name_func}`)
     }
@@ -39,7 +39,7 @@ const Pedido = (props: pedido_props) => {
       props.onUpUser_call(user_logado.id,props.numero_mesa)
       props.setIdstate(props.id)
 
-    } 
+    } //caso ainda nao finalizou o atendimento
     else {
       Alert.alert('Finalize o Atendimento para mudar')
     }

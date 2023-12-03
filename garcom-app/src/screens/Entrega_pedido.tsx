@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, FlatList, Dimensions, ScrollView, Alert } from 'react-native';
+import {  StyleSheet, Text, View, FlatList, Dimensions, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchpedidos,setPedidos_MESA,startPedidosListener} from '../store/action/pedidos';
 import { Mesas, pedido_inter, user_fun } from '../interface/inter';
 import Header from '../components/headers/Header_pedidos';
 import { NavigationProp } from '@react-navigation/native';
-import Call_cliente from '../components/call_entrega/Call_cliente';
+import Entrega from '../components/call_entrega/Entrega';
 import { Feather } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { fetch_user_call } from '../store/action/user';
 import { fetch_mesa_status_call } from '../store/action/mesas';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   status_chapeiro?:boolean;
@@ -21,83 +22,96 @@ interface Props {
   onUpUser_call:(id:string,number:number) =>void
   onUpMesa_user_call:(id:string) =>void
   pedidos_mesa:any
-
+  pedidos: pedido_inter[];
 }
-const Pedidos = ({ mesas, users,user_login,pedidos_mesa,navigation,onUpUser_call,onUpMesa_user_call }:Props) => {
-  // console.log(users);
-  // console.log(mesas);
-  //funcao para atualizar o stado do usario :
-  const [idstate, setIdstate] = useState<string>("") 
+const Pedidos = ({ mesas, users,navigation,pedidos }:Props) => {
 
-  useEffect(()=>{
-    const user_logado = users.find(user => user.uid === user_login.uid)
-    // console.log(user_logado)
-    if(user_logado.call !== 0 && user_logado.call !== undefined){
-      const numero_mesa_ = mesas.find(mesa=>mesa.numero_mesa === user_logado.call)
-      setIdstate(numero_mesa_.id)
 
-    }
-  },[])
-  const user_logado = users.find(user => user.uid === user_login.uid)
-  // console.log("user logado", user_logado)
-  // console.log("state id ", idstate)
-  //funcao para atualizar mesa e users para finalizar o atendimento.
-  const func_update_x = () => { 
-    if(idstate){
-      // console.log(idstate)
-      onUpUser_call(user_logado.id, 0)
-      onUpMesa_user_call(idstate)
-      setIdstate('')
-    }else {
-      Alert.alert("Escolha uma Chamada")
-    }
-  } 
-  const numero_mesa_ = idstate?mesas.find(mesa=>mesa.id === idstate):null
-  // console.log(numero_mesa_)
-  // console.log(pedidos_mesa)
+  const [state_chapeiro,setState_chapeiro] = useState<pedido_inter[]>()
+  const [state_click,setState_click] = useState<string[]>([])
+  //filtragem para selecionar itens q correspondem as condicoes para entregue 
+  useEffect(() => {
+    // Filtro dos pedidos
+    const pedidosChapeiro = pedidos.filter((pedido) => {
+      return (
+        pedido.status_chapeiro === false &&
+        pedido.itens.some(
+          (item) =>
+            (item.categoria === 'comidas' && item.categoria_2 === 'lanches') ||
+            item.categoria_2 === 'hotdogs'
+        )
+      );
+    }); 
+    /// Filtro dos usuários
+    const Chapeiro_entregue = pedidosChapeiro.filter((item) => {
+      return !users.some((user) => user.chapeiro?.includes(item.id));
+    });
+    setState_chapeiro(Chapeiro_entregue)
+    // console.log('Chapeiros Entregues:', Chapeiro_entregue);  
+  }, [pedidos, users]);
 
-  const pedido_mesa_finalizar = numero_mesa_?pedidos_mesa.find(mesa => mesa.numero_mesa === numero_mesa_.numero_mesa):null
-  // console.log(pedido_mesa_finalizar)
 
+  // console.log(state_chapeiro)
+  // console.log(state_click)
+  // Verfica se o numero da mesa é igual aos q estao presentes
+  const array_state = state_chapeiro?.find(item => {
+    return state_click?.some(i=> item.id=== i)
+  })
+  console.log(state_click)
+
+  // navegar para a listagem dos pedidos podendo mudar o status do pedido para finalizado
   const func_pedido_finalizar = () =>{
-    if(pedido_mesa_finalizar){
       navigation.navigate('Pedido',{ 
-        id:pedido_mesa_finalizar.id,
-        ids: pedido_mesa_finalizar.ids,
-        numero_mesa: pedido_mesa_finalizar.numero_mesa, 
+        ids: state_click,
+        numero_mesa: array_state.numero_mesa, 
         })
-    }else {
-      Alert.alert("Cliente não tem Pedido")
-    }
   }
-  const func_pedido_adicionar = () =>{
-    navigation?.navigate('Adicionar', { numero_mesa: numero_mesa_.numero_mesa, mesa:true });
-  }
-  // console.log(pedidos_mesa)
   return (
     <SafeAreaView style={styles.container}>
    
-      <Header call navigation={navigation} />
-      
+      <Header entrega navigation={navigation} />
+      <ScrollView>
       <FlatList
+      scrollEnabled={false}
+
+        data={state_chapeiro}
+        //item ja retorna apenas os status_chapeiro de acordo com o back0end query
+        keyExtractor={item => `${item.id}`}
+        renderItem={({ item,index }) => {
+            // condicoes para realizar a pesquisa e filtro sobre os resultados obtidos
+            if(state_click.includes(item.id)){
+              return <Entrega chapeiro  users={users} state_chapeiro={state_chapeiro} id={item.id} key={item.id} numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click}
+              state_click={state_click}/>;
+            }else {
+              return <Entrega  users={users} state_chapeiro={state_chapeiro} id={item.id} key={item.id} styles numero_mesa={item.numero_mesa} navigation={navigation} setState_click={setState_click} state_click={state_click}/>;
+            }
+                
+        }}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+      />
+      <View  style={styles.separator}>
+          <Text >rafa</Text>
+      </View>
+      {/* <FlatList
+      scrollEnabled={false}
         data={mesas.filter(item => item.status_call===true)}
         //item ja retorna apenas os status_chapeiro de acordo com o back0end query
         keyExtractor={item => `${item.id}`}
         renderItem={({ item,index }) => {
             // condicoes para realizar a pesquisa e filtro sobre os resultados obtidos
                if(item.status_user_call === true){
-                return <Call_cliente  user_call users={users} id={item.id} key={item.id} numero_mesa={item.numero_mesa} navigation={navigation} setIdstate={setIdstate} />;
+                return <Entrega  user_call users={users} id={item.id} key={item.id} numero_mesa={item.numero_mesa} navigation={navigation}/>;
               }else {
-                return <Call_cliente   users={users} id={item.id} key={item.id} styles numero_mesa={item.numero_mesa} navigation={navigation} setIdstate={setIdstate} />;
+                return <Entrega   users={users} id={item.id} key={item.id} styles numero_mesa={item.numero_mesa} navigation={navigation} />;
               }
         }}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-      />
-      {idstate?
+      /> */}
+    </ScrollView>
+    {state_click?
       <View style={styles.container_Buttons}>
         <MaterialCommunityIcons name="playlist-edit" size={35} color="tomato" onPress={func_pedido_finalizar}/>
-        <Fontisto name="shopping-basket-add" size={45} color="tomato" onPress={func_pedido_adicionar}/>
-        <Feather name="x-octagon" size={30} color="tomato"  onPress={func_update_x}/>
+        <Feather name="x-octagon" size={30} color="tomato"  />
       </View>:null}
     </SafeAreaView>
   );
@@ -117,6 +131,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: '100%',
     backgroundColor: 'transparent',
+    alignItems:'center'
   },
   container_Buttons: {
     height: '10%',
@@ -132,6 +147,7 @@ const styles = StyleSheet.create({
 
 const mapStateProps = ({ pedidos, user }: {  pedidos: any, user: any}) => {
   return {
+    pedidos: pedidos.pedidos,
     mesas:pedidos.mesas,
     users:user.users,
     user_login:user.user,

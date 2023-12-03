@@ -42,7 +42,7 @@ import { pedido_itens_comp } from '../interface/inter';
       cartao={cartao}
       />
       {/*recebe o id depois faz um find em pedidos qual id === id_pedidos*/}
-      <Lista id={id} numero_mesa={numero_mesa} ids={ids}/> 
+      <Lista  numero_mesa={numero_mesa} ids={ids}/> 
       {/* botao para atualizar o status_$ do PEDIDO */}
       
       <View style={styles.totalContainer}>

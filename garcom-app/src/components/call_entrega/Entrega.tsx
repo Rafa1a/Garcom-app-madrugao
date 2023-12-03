@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Dimensions, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { Avatar, Icon } from '@rneui/themed';
 import Number from '../Number';
@@ -12,7 +12,6 @@ import { fetch_user_call } from '../../store/action/user';
 const Pedido = (props: pedido_props) => {
  
  
- 
   // console.log(props.user_login.uid)
  
   //styles seria preto ou branco 
@@ -22,46 +21,60 @@ const Pedido = (props: pedido_props) => {
   :
   <Number number={props.numero_mesa} />
 
-  const numero_mesa_user_call = props.users.find(user => user.call === props.numero_mesa || null)
   const user_logado = props.users.find(user => user.uid === props.user_login.uid)
 
+  const func_click = () => {
+    const itemId = props.id;
+  
+    // Verifica se o item já está presente no array
+    const isItemPresent = props.state_click.includes(itemId);
+    // Verfica se o numero da mesa é igual aos q estao presentes
+    const array_state = props.state_chapeiro.find(item => {
+      return props.state_click.some(i=> item.id=== i)
+    })
+    // console.log(array_state);
 
-  const func_Uptades = () => {
-    const numero_mesa_user_call = props.users.find(user => user.call === props.numero_mesa || null)
-    // console.log(numero_mesa_user_call)
+    if(array_state?.numero_mesa === props.numero_mesa || !array_state ){
+      // Cria uma cópia do array atual
+      const newArray = [...props.state_click];
+      
+      if (isItemPresent) {
+        // Se o item já está presente, remove-o
+        const index = newArray.indexOf(itemId);
+        newArray.splice(index, 1);
+      } else {
+        // Se o item não está presente, adiciona-o
+        newArray.push(itemId);
+      }
+    // Atualiza o estado com o novo array
 
-    if(numero_mesa_user_call && numero_mesa_user_call.uid !== user_logado.uid){
-      Alert.alert(`Esta sendo atendido por ${numero_mesa_user_call.name_func}`)
+      props.setState_click(newArray);
+
+    }else {
+      Alert.alert('Você só pode atender o mesmo numero de mesa, de uma unica vez')
     }
-    else if(user_logado.call === 0 || user_logado.call === undefined){
-      props.onUpMesa_user_call(props.id) 
-      // console.log(user_logado)
-      props.onUpUser_call(user_logado.id,props.numero_mesa)
-      props.setIdstate(props.id)
-
-    } 
-    else {
-      Alert.alert('Finalize o Atendimento para mudar')
-    }
-   
-  }
+  
+  
+    // console.log(props.state_click);
+  };
 
   return  (
       
     <SafeAreaView style={styles.containerM}>
-      <TouchableOpacity onPress={func_Uptades}>
+      <TouchableOpacity onPress={func_click}>
         <View style={props.styles?styles.containerindex0:styles.container}>
           <View style={styles.content}>
             {userormesa}
             {props.status?null:<Text style={{marginLeft:30,color:"#f10404"}}>{props.ordem}</Text>}
           </View>
         </View>
+        
       </TouchableOpacity>
-      {props.user_call? numero_mesa_user_call?
+      {props.chapeiro? user_logado?
       <Avatar
         size={100}
         rounded
-        source={{uri:numero_mesa_user_call.image_fun}}
+        source={{uri:user_logado.image_fun}}
         containerStyle={{
           width: 45,
           margin: 7,

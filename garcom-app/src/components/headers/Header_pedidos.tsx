@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import List_mesas from '../List_mesas';
 
 // Header de Pedidos simples
-const Header = ({ call, mesa, navigation, mesas }: HeaderPedidosProps) => {
+const Header = ({ call, mesa, navigation, mesas,entrega }: HeaderPedidosProps) => {
   
  
   // console.log(mesas)
@@ -50,6 +50,7 @@ const Header = ({ call, mesa, navigation, mesas }: HeaderPedidosProps) => {
       <Text style={styles.text}>
         {mesa ? 'Mesa' : null}
         {call ? 'Chamadas' : null}
+        {entrega ? 'Entrega' : null}
       </Text>
       
       {mesa? 

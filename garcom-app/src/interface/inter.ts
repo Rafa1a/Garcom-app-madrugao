@@ -17,6 +17,7 @@ export interface HeaderPedidoProps {
 export interface HeaderPedidosProps {
   mesa?: boolean;
   call?:boolean;
+  entrega?:boolean;
   navigation ?: NavigationProp<any,any>;
   mesas:[],
 }
@@ -61,12 +62,19 @@ export interface pedido_props {
     status_porcoes?:boolean
     status_bar?:boolean
     onFetchPedidos_Excluir_Mesa?:(id:string[])=>void
+    //call funcoes
     user_call?:boolean
     users?:user_fun[];
     onUpMesa_user_call?:(id:string)=>void
     onUpUser_call?:(id:string,number:number)=>void
     setIdstate?:(state:string)=>void
     user_login?:user_fun
+    //entrega funcoes
+    chapeiro?:boolean
+    state_click?:string[]
+    setState_click?:(state_click:string[])=>void
+    state_chapeiro?: pedido_inter[];
+
     
   }
 export interface user_fun{
@@ -77,6 +85,9 @@ export interface user_fun{
   name_func:string;
   uid?:string;
   call:number;
+  chapeiro?:string[]
+  bar?:string[]
+  porcoes?:string[]
 }
  export interface Item {
     id:string
@@ -121,7 +132,7 @@ export interface user_fun{
   export interface lista_pedido {
     pedidos_mesa:pedidos_mesa[]
     pedidos:pedido_inter[]
-    id:string
+    id?:string
     ids?:string[]
     numero_mesa:number
     onFitchTotal_valor:(total:number)=>void

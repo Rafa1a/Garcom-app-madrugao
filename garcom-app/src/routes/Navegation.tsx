@@ -12,7 +12,8 @@ import { connect } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import Login from "../screens/Login";
 import Mesa_call from "../screens/Mesa_call";
-
+import Entrega_pedido from "../screens/Entrega_pedido";
+import { Ionicons } from '@expo/vector-icons';
 //////////////////////////////////////////////////////////////////////
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator()
@@ -84,16 +85,16 @@ const MenuTab = () => {
         }} 
       /> 
 
-     {/* {/* <Tab.Screen
-        name="Pedidos_Online"
-        component={Pedidos_Online}
+       <Tab.Screen
+        name="Entrega_pedido"
+        component={Entrega_pedido}
         options={{
-          tabBarLabel: 'Online',
+          tabBarLabel: 'Entrega',
           tabBarIcon: ({ color }) => (
-            <Fontisto name="world" color={color} size={26} />
+            <Ionicons name="file-tray-stacked" size={24} color={color} />
           ),
         }}
-      /> */}
+      /> 
     </Tab.Navigator>
   );
 }

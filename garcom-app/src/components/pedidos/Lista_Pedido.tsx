@@ -41,9 +41,6 @@ class Lista extends React.Component<lista_pedido> {
     // itens pedido online e outros
     const objeto_pedido = this.props.pedidos.find((item: any) => item.id === this.props.id);
 
-    if (!objeto_pedido || !objeto_pedido.itens) {
-      return null; // retorna null se os pedidos nao existir 
-    }
     // Itens do pedido da mesa
     const itensPorMesa: { [key: number]: any[] } = {};
 
@@ -62,7 +59,7 @@ class Lista extends React.Component<lista_pedido> {
 
     // console.log(itensPorMesa);
     //passando os dados correto caso seja mesa
-    const mesa_outros_dada = this.props.numero_mesa? itensPorMesa[this.props.numero_mesa]:objeto_pedido.itens
+    const mesa_outros_dada = this.props.numero_mesa? itensPorMesa[this.props.numero_mesa]:objeto_pedido?.itens
     //passando a informacao correta caso seja mesa
     const mesa_outros_excluir = this.props.numero_mesa? true : false
 
