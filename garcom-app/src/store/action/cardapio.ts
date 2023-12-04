@@ -11,16 +11,19 @@ export const startCardapio = () => {
     try{
       const q = query(collection(db, "cardapio"));
       onSnapshot(q, (snapshot) => {
-        const cities: any[] = [];
+        const cardapio: any[] = [];
         snapshot.forEach((doc) => {
-            cities.push(doc.data());
+            // console.log(doc.id)
+            const rawCradapio = doc.data();
+            cardapio.push({...rawCradapio,
+              id: doc.id}) 
+          }); 
+          // console.log(cardapio)
+          dispatch(setCardapio(cardapio))
+          console.log("Cardapio onsnap")
+
         });
-        // if(cities.length === 1) {
-        //   onDisplayNotification()
-        // }
-        console.log("cardapio onsnap")
-        dispatch(fetchcardapio())
-      }); 
+        
     }catch (error) {
         // console.error('Erro ao adicionar item ao pedido:', error);
         dispatch(setMessage({
@@ -32,30 +35,31 @@ export const startCardapio = () => {
   };
 };
 // get em cardapio 
-export const fetchcardapio =  () =>{
-    return async (dispatch:any)=>{
-      try {
-        const q = collection(db, "cardapio");
-        const querySnapshot = await getDocs(q);
-        const cardapio = querySnapshot.docs.map((doc) => {
-          const rawPedidos = doc.data();
-          return {
-            ...rawPedidos,
-            id: doc.id
-          };
-        }); 
-        dispatch(setCardapio(cardapio))
-      } catch (e) {
-        // console.error("Error fetching documents: ", e);
-        dispatch(setMessage({
-          title: 'Error',
-          text: 'Ocorreu um erro ao contatar o servidor dos Cardapios'
-        }))
-      }
+// export const fetchcardapio =  () =>{
+//     return async (dispatch:any)=>{
+//       try {
+//         const q = collection(db, "cardapio");
+//         const querySnapshot = await getDocs(q);
+//         const cardapio = querySnapshot.docs.map((doc) => {
+//           const rawPedidos = doc.data();
+//           return {
+//             ...rawPedidos,
+//             id: doc.id
+//           };
+//         }); 
+//         dispatch(setCardapio(cardapio))
+//       } catch (e) {
+//         // console.error("Error fetching documents: ", e);
+//         dispatch(setMessage({
+//           title: 'Error',
+//           text: 'Ocorreu um erro ao contatar o servidor dos Cardapios'
+//         }))
+//       }
      
-    }
-  }
+//     }
+//   }
   //atualizacao do cardapio automatico
+  
   export const fetchatualizar_cardapio_estoque_auto = (id:string, estoque:number, id_pedido:string) => {
     return async (dispatch:any) => {
       try {

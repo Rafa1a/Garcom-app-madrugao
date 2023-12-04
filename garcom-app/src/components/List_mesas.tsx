@@ -1,12 +1,11 @@
 
 import React from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
-
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
@@ -15,14 +14,12 @@ export default (props: any) => {
     const color_mesa = props.selectedTable===props.numero_mesa?true:false
   return (
     <SafeAreaView style={styles.container2}>
-         
          <TouchableOpacity
               style={color_mesa?styles.tableButton_2:styles.tableButton}
               onPress={() => props.handleSelectTable(props.numero_mesa)}
             >
               <Text style={color_mesa?styles.tableText_2:styles.tableText}>Mesa {props.numero_mesa}</Text>
             </TouchableOpacity>
-
     </SafeAreaView>
   );
 }

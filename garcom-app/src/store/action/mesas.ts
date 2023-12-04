@@ -9,9 +9,16 @@ export const startMesas= () => {
       try{
         const q = query(collection(db, "mesas"));
         onSnapshot(q, (snapshot) => {
-        
-          console.log("mesas onsnap")
-          dispatch(fetchMesas())
+          const mesas: any[] = [];
+          snapshot.forEach((doc) => {
+              const rawMesas = doc.data();
+              mesas.push({...rawMesas,
+                id: doc.id}) 
+            }); 
+          // console.log(mesas)
+          dispatch(setMesas(mesas))
+          console.log("Mesas onsnap")
+
         }); 
       }catch (error) {
           // console.error('Erro ao adicionar item ao pedido:', error);
@@ -23,32 +30,33 @@ export const startMesas= () => {
     };
   };
 
-export const fetchMesas =  () =>{
-    return async (dispatch:any)=>{
-      try {
-        const q = collection(db, "mesas");
-        const querySnapshot = await getDocs(q);
-        const mesas = querySnapshot.docs.map((doc) => {
-          const rawMesas = doc.data();
-          return {
-            ...rawMesas,
-            id: doc.id
-          };
-        }); 
+// export const fetchMesas =  () =>{
+//     return async (dispatch:any)=>{
+//       try {
+//         const q = collection(db, "mesas");
+//         const querySnapshot = await getDocs(q);
+//         const mesas = querySnapshot.docs.map((doc) => {
+//           const rawMesas = doc.data();
+//           return {
+//             ...rawMesas,
+//             id: doc.id
+//           };
+//         }); 
         
-         dispatch(setMesas(mesas))
+//          dispatch(setMesas(mesas))
         
-      } catch (e) {
-        console.error("Error fetching documents: ", e);
-        dispatch(setMessage({
-          title: 'Error',
-          text: 'Ocorreu um erro ao contatar o servidor das Mesas'
-        }))
-      }
-    }
-  }
+//       } catch (e) {
+//         console.error("Error fetching documents: ", e);
+//         dispatch(setMessage({
+//           title: 'Error',
+//           text: 'Ocorreu um erro ao contatar o servidor das Mesas'
+//         }))
+//       }
+//     }
+//   }
 
 // Atualizar MESA  status_user_call: 
+
 export const fetch_mesa_status_user_call = (id:string) => {
   return async (dispatch:any)=>{
     try{

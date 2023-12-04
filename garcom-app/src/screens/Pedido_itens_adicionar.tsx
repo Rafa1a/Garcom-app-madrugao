@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,6 +15,7 @@ import { pedido_itens_comp,cartao } from '../interface/inter';
 import { Switch } from '@rneui/themed';
 import { addItemToPedidos, setAdicionar_pedido } from '../store/action/adicionar_pedido';
 import { CheckBox } from '@rneui/themed';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 //////////////////////////////////////////////////
 const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigation,onAdicionar_pedido,pedidos,inicial_state_mesas }: pedido_itens_comp & { total: number }) => {

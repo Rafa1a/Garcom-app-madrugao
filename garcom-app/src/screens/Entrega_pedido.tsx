@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {  StyleSheet, Text, View, FlatList, Dimensions, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchpedidos,setPedidos_MESA,startPedidosListener} from '../store/action/pedidos';
 import { Mesas, pedido_inter, user_fun } from '../interface/inter';
 import Header from '../components/headers/Header_pedidos';
 import { NavigationProp } from '@react-navigation/native';
@@ -34,6 +33,19 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
   const [state_bar,setState_bar] = useState<pedido_inter[]>()
   const [state_porcoes,setState_porcoes] = useState<pedido_inter[]>()
   const [state_click,setState_click] = useState<string[]>([])
+  //variavel :
+  const [user_logado, setUser_logado] = useState<any>(null) 
+  const [array_state_chapeiro,setArray_state_chapeiro] = useState<any>({})
+  const [array_state_bar,setArray_state_bar] = useState<any>({})
+  const [array_state_porcoes,setArray_state_porcoes] = useState<any>({})
+
+  useEffect(()=>{
+    //////////// Atualizar o estado do user globalmente //////////////////////
+    const user_logado_ = users.find(user => user.uid === user_login.uid)
+    setUser_logado(user_logado_)
+    
+  },[])
+
 
   /////////filtragem para selecionar itens q correspondem as condicoes para entregue////// 
 
@@ -93,31 +105,37 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
     // console.log('porcoes Entregues:', Porcoes_entregue);  
   }, [pedidos, users]);
 
-  //////////// Atualizar o estado do user globalmente //////////////////////
-  const user_logado = users.find(user => user.uid === user_login.uid)
+  
 
   useEffect(()=>{
+    ////////////// Verfica se o id é igual ao array state  chapeiro ////////////////////
+    const array_state_chapeiro_ = state_chapeiro?.find(item => {
+      return state_click?.some(i=> item.id=== i)
+    })
+    setArray_state_chapeiro(array_state_chapeiro_)
+    ////////////// Verfica se o id é igual ao array state bar ////////////////////
+    const array_state_bar = state_bar?.find(item => {
+      return state_click?.some(i=> item.id=== i)
+    })
+    setArray_state_bar(array_state_bar)
+    ////////////// Verfica se o id é igual ao array state porcoes ////////////////////
+    const array_state_porcoes = state_porcoes?.find(item => {
+      return state_click?.some(i=> item.id=== i)
+    })
+    // console.log("user",user_logado)    
+    // atualizar entregando.
+    setArray_state_porcoes(array_state_porcoes)
     const atualizar_entregando = async() => {
-    await onUpUser_entregando(user_logado.id,state_click);
-  }
-   atualizar_entregando()
-  },[state_click])
+      await onUpUser_entregando(user_logado.id,state_click);
+    }
+    console.log(user_logado)
+    user_logado? atualizar_entregando() : null
+    
+  },[state_click,user_logado])
 
   // console.log(state_chapeiro)
   // console.log(state_click)
 
-  ////////////// Verfica se o id é igual ao array state  chapeiro ////////////////////
-  const array_state_chapeiro = state_chapeiro?.find(item => {
-    return state_click?.some(i=> item.id=== i)
-  })
-  ////////////// Verfica se o id é igual ao array state bar ////////////////////
-  const array_state_bar = state_bar?.find(item => {
-    return state_click?.some(i=> item.id=== i)
-  })
-  ////////////// Verfica se o id é igual ao array state porcoes ////////////////////
-  const array_state_porcoes = state_porcoes?.find(item => {
-    return state_click?.some(i=> item.id=== i)
-  })
   // console.log("lanches",array_state_chapeiro)
   // console.log("bar",array_state_bar)
   // console.log("porcoes",array_state_porcoes)
@@ -139,7 +157,6 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
         })
   }
 
-  
   return (
     <SafeAreaView style={styles.container}>
       <Header entrega navigation={navigation} />

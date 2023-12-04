@@ -1,14 +1,14 @@
 import { Avatar, FAB, Icon } from '@rneui/themed';
 import React from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
   View,
-  Dimensions
+  Dimensions,
+  SafeAreaView
 } from 'react-native';
 import Number from '../Number'
 import { HeaderPedidoProps } from '../../interface/inter';

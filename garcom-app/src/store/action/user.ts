@@ -17,9 +17,15 @@ export const startUser_func= () => {
     try{
       const q = query(collection(db, "user_func"));
       onSnapshot(q, (snapshot) => {
-      
+        const users: any[] = [];
+          snapshot.forEach((doc) => {
+              const rawUsers = doc.data();
+              users.push({...rawUsers,
+                id: doc.id}) 
+            }); 
+        // console.log(users)
+        dispatch(setUser(users));
         console.log("user_func onsnap")
-        dispatch(fetchuser_get())
       }); 
     }catch (error) {
         // console.error('Erro ao adicionar item ao pedido:', error);
@@ -28,7 +34,7 @@ export const startUser_func= () => {
             text: 'Ocorreu um erro o servidor do User: funcionarios'
           }))
       }
-  };
+  }; 
 };
 
 
@@ -59,6 +65,7 @@ export const fetchuser_get = () =>{
           }
     }
 }
+
 export const add_Func = (user:user_fun) => {
   return async(dispatch:any)=>{
     try {
@@ -67,8 +74,6 @@ export const add_Func = (user:user_fun) => {
         await addDoc(usersCol,user);
         
         // console.log("users")
-        dispatch(fetchuser_get())
-        
       } catch (e) {
         dispatch(setMessage({
           title: 'Error',
@@ -110,7 +115,7 @@ export const fetch_user_entregando = (id:string,array:string[]) => {
       console.error("Error fetching documents: ", e);
       dispatch(setMessage({
         title: 'Error',
-        text: 'Ocorreu um erro ao atualizar user call'
+        text: 'Ocorreu um erro ao atualizar user entregando'
       }))
     }
    
@@ -131,7 +136,7 @@ export const fetch_user_chapeiro = (id:string,ids_pedidos:string[]) => {
       console.error("Error fetching documents: ", e);
       dispatch(setMessage({
         title: 'Error',
-        text: 'Ocorreu um erro ao atualizar user call'
+        text: 'Ocorreu um erro ao atualizar user chapeiro'
       }))
     }
    
@@ -152,7 +157,7 @@ export const fetch_user_bar = (id:string,ids_pedidos:string[]) => {
       console.error("Error fetching documents: ", e);
       dispatch(setMessage({
         title: 'Error',
-        text: 'Ocorreu um erro ao atualizar user call'
+        text: 'Ocorreu um erro ao atualizar user bar'
       }))
     }
    
@@ -173,7 +178,7 @@ export const fetch_user_porcoes = (id:string,ids_pedidos:string[]) => {
       console.error("Error fetching documents: ", e);
       dispatch(setMessage({
         title: 'Error',
-        text: 'Ocorreu um erro ao atualizar user call'
+        text: 'Ocorreu um erro ao atualizar user porcoes'
       }))
     }
    

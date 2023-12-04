@@ -1,12 +1,11 @@
 import React from 'react';
 
 import {
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
   View,
-  TouchableOpacity, TouchableWithoutFeedback
+  TouchableOpacity, TouchableWithoutFeedback, SafeAreaView
 } from 'react-native';
 import { ItemProps } from '../../interface/inter';
 import { connect } from 'react-redux';

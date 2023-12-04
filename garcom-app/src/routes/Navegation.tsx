@@ -14,6 +14,7 @@ import Login from "../screens/Login";
 import Mesa_call from "../screens/Mesa_call";
 import Entrega_pedido from "../screens/Entrega_pedido";
 import { Ionicons } from '@expo/vector-icons';
+import Updat from "../screens/Updates";
 //////////////////////////////////////////////////////////////////////
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator()
@@ -28,10 +29,11 @@ const FeedStack = (props: any) => {
 
   //splash q inicia o app e carrega os dados de auth/firebase
   return (
-    <Stack.Navigator initialRouteName="Login" >
+    <Stack.Navigator initialRouteName="Updates" >
+      <Stack.Screen name="Updates" component={Updat} options={{ headerShown: false }} {...props} />
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} {...props} />
 
       <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} {...props} />
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} {...props} />
 
       <Stack.Screen name="Pedidos" component={MenuTab} options={{ headerShown: false, }} {...props} />
 

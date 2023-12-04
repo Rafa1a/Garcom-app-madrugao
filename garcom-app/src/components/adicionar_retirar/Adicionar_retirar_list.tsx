@@ -36,7 +36,7 @@ const adicionar_retirar = (props: adicionar_comp) => {
   ////////////////controle checkbox////////////////////
   const [checkbox1, setCheckbox1] = useState(props.trueorfalse);
   // soma de adicionar item 
-  const [add_retirar, setAdd_retirar,] = useState(1);
+  const [add_retirar, setAdd_retirar,] = useState(0);
 
   ////////////estado inicial de itens COMUM////////////////////
   const inicial_itens:any = undefined
@@ -341,13 +341,6 @@ const adicionar_retirar = (props: adicionar_comp) => {
           <TouchableOpacity 
           style={styles.button} 
           onPress={() => setCheckbox1(prevCheckbox => !prevCheckbox)}
-          onLongPress={()=> {props.adicionar_retirar?
-            (
-              (() => {
-                setModalVisible(true);
-                checkbox1?null:setCheckbox1(prevCheckbox => !prevCheckbox)
-              })()
-            ):null}}
           >
             <ListItem.Title style={styles.title}>
               {props.name}
@@ -355,6 +348,27 @@ const adicionar_retirar = (props: adicionar_comp) => {
             <ListItem.Subtitle style={styles.subtittle}>
               {Soma()}
             </ListItem.Subtitle>
+              {props.adicionar_retirar?<Button  
+                size='md'	
+                radius='lg' 
+                type='outline'
+                title={'Personalizado'}
+                icon={{
+                  name: 'add',
+                  type: 'ionicons',
+                  size: 15,
+                  color: 'white',
+                }}
+                buttonStyle={{borderColor:'tomato',backgroundColor:'#3c4043'}}
+                titleStyle={{color:'white'}}  
+                onPress={()=> {props.adicionar_retirar?
+                  (
+                    (() => {
+                      setModalVisible(true);
+                      checkbox1?null:setCheckbox1(prevCheckbox => !prevCheckbox)
+                    })()
+                  ):null}} 
+              />:null}
           </TouchableOpacity>
         </ListItem.Content>
         <Button  
@@ -468,7 +482,7 @@ const adicionar_retirar = (props: adicionar_comp) => {
               <TouchableOpacity style={styles.button} onPress={() => {
                 setModalVisible(false)
                 setInicial_state_custom(inicial_itens_custom)
-                console.log(add_retirar)
+                // console.log(add_retirar)
                 props.adicionar_pedido.length === 0 ?setCheckbox1(false):null
               }}>
                 <Text style={styles.buttonText}>Cancelar</Text>

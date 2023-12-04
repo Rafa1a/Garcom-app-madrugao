@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
   Modal,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   FlatList,
-  Alert
+  Alert,
+  SafeAreaView
 } from 'react-native';
 import { Button } from '@rneui/themed';
 import { HeaderPedidosProps, pedido_inter } from '../../interface/inter';
@@ -178,9 +178,5 @@ const mapStateProps = ({ pedidos }: { pedidos: any }) => {
     mesas:pedidos.mesas
   };
 };
-// const mapDispatchProps = (dispatch: any) => {
-//   return {
-//     onFetchMesas : () => dispatch(fetchMesas()),
-//   };
-// };
+
 export default connect(mapStateProps,null)(Header)

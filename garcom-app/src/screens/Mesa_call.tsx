@@ -29,40 +29,46 @@ const Pedidos = ({ mesas, users,user_login,pedidos_mesa,navigation,onUpUser_call
   // console.log(mesas);
   //funcao para atualizar o estado do usario :
   const [idstate, setIdstate] = useState<string>("") 
-
+  const [user_logado, setUser_logado] = useState<any>([]) 
+  const [numero_mesa_, setNumero_mesa_] = useState<any>([]) 
+  const [pedido_mesa_finalizar, setPedido_mesa_finalizaro] = useState<any>([]) 
+  
   //condicao caso ja esteja fazendo um atendimento 
   useEffect(()=>{
-    const user_logado = users.find(user => user.uid === user_login.uid)
+    // funcoes para uso
+    const user_logado_ = users.find(user => user.uid === user_login.uid)
+    const numero_mesa__ = idstate?mesas.find(mesa=>mesa.id === idstate):null
+    const pedido_mesa_finalizar = numero_mesa__?pedidos_mesa.find(mesa => mesa.numero_mesa === numero_mesa__.numero_mesa):null
+
+    setUser_logado(user_logado_)
+    setNumero_mesa_(numero_mesa__)
+    setPedido_mesa_finalizaro(pedido_mesa_finalizar)
     // console.log(user_logado)
-
     //caso o user esteja atendendo
-    if(user_logado.call !== 0 && user_logado.call !== undefined){
-      const numero_mesa_ = mesas.find(mesa=>mesa.numero_mesa === user_logado.call)
+    if(user_logado_.call !== 0 && user_logado_.call !== undefined){
+      const numero_mesa__ = mesas.find(mesa=>mesa.numero_mesa === user_logado_.call)
       //definir o estado
-      setIdstate(numero_mesa_.id)
-    }
-  },[])
+      setIdstate(numero_mesa__.id)
+    } 
 
+  },[idstate])  
   // console.log("user logado", user_logado)
   // console.log("state id ", idstate)
-  const user_logado = users.find(user => user.uid === user_login.uid)
   //funcao para atualizar mesa e users para finalizar o atendimento.
-  const func_update_x = () => { 
+  const func_update_x = async () => { 
     if(idstate){
       // console.log(idstate)
-      onUpUser_call(user_logado.id, 0)
-      onUpMesa_user_call(idstate)
+      await onUpUser_call(user_logado.id, 0)
+      await onUpMesa_user_call(idstate)
       setIdstate('')
     }else {
       Alert.alert("Escolha uma Chamada")
     }
   } 
-  const numero_mesa_ = idstate?mesas.find(mesa=>mesa.id === idstate):null
-  // console.log(numero_mesa_)
+  console.log(numero_mesa_)
   // console.log(pedidos_mesa)
 
-  const pedido_mesa_finalizar = numero_mesa_?pedidos_mesa.find(mesa => mesa.numero_mesa === numero_mesa_.numero_mesa):null
-  // console.log(pedido_mesa_finalizar)
+  // console.log(pedido_mesa_finalizar) 
 
   // navegar para a listagem dos pedidos podendo mudar o status do pedido para finalizado
   const func_pedido_finalizar = () =>{
