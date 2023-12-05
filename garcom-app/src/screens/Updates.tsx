@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const CheckForUpdatesScreen = (props: any) => {
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
   const [key, setKey] = useState(0); // Adicione um estado para a chave
-  const navigateToLogin = () => props.navigation?.navigate('Login');
+   const navigateToLogin = () => props.navigation?.replace('Login');
 
   useEffect(() => {
     const checkForUpdates = async () => {
@@ -19,7 +19,7 @@ const CheckForUpdatesScreen = (props: any) => {
         } else {
           setTimeout(() => {
             navigateToLogin();
-          }, 500);
+          }, 1000);
         }
       } catch (error) {
         navigateToLogin();
@@ -28,40 +28,45 @@ const CheckForUpdatesScreen = (props: any) => {
     };
 
     checkForUpdates();
-  }, [key]); // Adicione key como dependência
+  }, [key]); 
+
+  useEffect(() => {
+    const handleUpdateAvailable = () => {
+      // Aumenta a chave para recriar o componente
+      setKey((prevKey) => prevKey + 1);
+    };
+
+    setTimeout(() => {
+      handleUpdateAvailable();
+    }, 3000);
+  },[])
+  
 
   const handleUpdatePress = async () => {
     try {
       await Updates.fetchUpdateAsync();
       Updates.reloadAsync();
+
     } catch (error) {
       console.error('Error fetching update:', error);
       Alert.alert('Error', 'Ao tentar atualizar, tente mais tarde.');
     }
   };
 
-  const handleUpdateAvailable = () => {
-    // Aumenta a chave para recriar o componente
-    setKey((prevKey) => prevKey + 1);
-  };
-
+  
   return (
     <SafeAreaView style={styles.container}>
       {isUpdateAvailable ? (
         <View>
           <Text style={styles.text}>Nova Atualização disponível!</Text>
-          <Button title="Atualizar" onPress={
-            ()=> {
-              handleUpdatePress()
-              handleUpdateAvailable()
-            }
-          } />
+          <Button title="Atualizar" onPress={handleUpdatePress} />
         </View>
       ) : (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#2d2f31' }}>
           <ActivityIndicator size="large" />
         </View>
-      )}
+      ) } 
+      
     </SafeAreaView>
   );
 };

@@ -62,7 +62,7 @@ const Splash = ({ navigation, pedidos, cardapio, onFetchPedidos, onFetchCardapio
     // Se os pedidos foram carregados e existem pedidos
     if (loaded && loaded1 && cardapio !== undefined && pedidos !== undefined) {
       // console.log('rafa tava certo caraio')
-      navigation.navigate('Pedidos');
+      navigation.replace('Pedidos');
       setLoaded1(false)
     }
   }, [pedidos,cardapio]);
@@ -72,7 +72,7 @@ const Splash = ({ navigation, pedidos, cardapio, onFetchPedidos, onFetchCardapio
     <SafeAreaView style={styles.container}>
       <Image source={require('../assets/image/splash.png')} style={styles.image} />
       <Text style={styles.header}>Madrugão</Text>
-      <ActivityIndicator size={"large"} color='#DE6F00'/>
+      <ActivityIndicator size={"large"} color='tomato'/>
     </SafeAreaView>
   );
 };

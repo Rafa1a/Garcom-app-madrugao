@@ -158,11 +158,11 @@ const LoginScreen = (props: any) => {
         // console.log(opcoes_user)
         
           if(uid_func){
-            props.navigation?.navigate("Splash");
+            props.navigation?.replace("Splash");
             console.log('login');
           }else if (array_func.length <= opcoes_user.quantidade) {
             await props.onAdd_User(add_func);
-            props.navigation?.navigate("Splash");
+            props.navigation?.replace("Splash");
             // console.log('add');
           }else {  
             setLoadign_icon(false)
