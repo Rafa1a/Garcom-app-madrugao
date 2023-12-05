@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text } from 'react-native';
 import { Image, LinearProgress } from '@rneui/themed';
 import { connect } from 'react-redux';
 import { startCardapio } from '../store/action/cardapio';
@@ -70,14 +70,9 @@ const Splash = ({ navigation, pedidos, cardapio, onFetchPedidos, onFetchCardapio
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={require('../assets/image/icone.png')} style={styles.image} />
+      <Image source={require('../assets/image/splash.png')} style={styles.image} />
       <Text style={styles.header}>Madrugão</Text>
-      <LinearProgress
-        style={{ marginVertical: 10 }}
-        value={progress}
-        variant="determinate"
-        color='#DE6F00'
-      />
+      <ActivityIndicator size={"large"} color='#DE6F00'/>
     </SafeAreaView>
   );
 };

@@ -141,7 +141,6 @@ const LoginScreen = (props: any) => {
       // console.log('set users:ok')
     }
   },[loading_user])
-
   
   //login user tratamento e logica para funcionamento do LOGIN
   React.useEffect(() => {

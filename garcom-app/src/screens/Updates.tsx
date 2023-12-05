@@ -3,8 +3,11 @@ import { View, Text, Button, StyleSheet, Alert, ActivityIndicator } from 'react-
 import * as Updates from 'expo-updates';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+// Restante do seu código...
+
 const CheckForUpdatesScreen = (props: any) => {
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
+  const [key, setKey] = useState(0); // Adicione um estado para a chave
   const navigateToLogin = () => props.navigation?.navigate('Login');
 
   useEffect(() => {
@@ -16,7 +19,7 @@ const CheckForUpdatesScreen = (props: any) => {
         } else {
           setTimeout(() => {
             navigateToLogin();
-          }, 500); // Aguarda 500 milissegundos antes de navegar para o 'Login'
+          }, 500);
         }
       } catch (error) {
         navigateToLogin();
@@ -25,13 +28,11 @@ const CheckForUpdatesScreen = (props: any) => {
     };
 
     checkForUpdates();
-  }, []);
+  }, [key]); // Adicione key como dependência
 
   const handleUpdatePress = async () => {
     try {
       await Updates.fetchUpdateAsync();
-      // Handle the update: you can prompt the user to restart the app
-      // or do it automatically by calling Updates.reloadAsync()
       Updates.reloadAsync();
     } catch (error) {
       console.error('Error fetching update:', error);
@@ -39,13 +40,22 @@ const CheckForUpdatesScreen = (props: any) => {
     }
   };
 
+  const handleUpdateAvailable = () => {
+    // Aumenta a chave para recriar o componente
+    setKey((prevKey) => prevKey + 1);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       {isUpdateAvailable ? (
         <View>
           <Text style={styles.text}>Nova Atualização disponível!</Text>
-          <Button title="Atualizar" onPress={handleUpdatePress} />
+          <Button title="Atualizar" onPress={
+            ()=> {
+              handleUpdatePress()
+              handleUpdateAvailable()
+            }
+          } />
         </View>
       ) : (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#2d2f31' }}>
@@ -55,6 +65,9 @@ const CheckForUpdatesScreen = (props: any) => {
     </SafeAreaView>
   );
 };
+
+// Restante do seu código...
+
 
 const styles = StyleSheet.create({
   container: {
