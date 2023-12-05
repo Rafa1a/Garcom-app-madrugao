@@ -38,8 +38,8 @@ const LoginScreen = (props: any) => {
 
 ////////////google auth //////////////////////////////////
   const [request,response,promptAsync] = Google.useAuthRequest({
-    iosClientId:"132031674201-9s1pkkhehuakqevilbob9btuia0bf2e4.apps.googleusercontent.com",
-    androidClientId:"132031674201-vu8fs3nq0e0sacsf9o2umraillpecp7o.apps.googleusercontent.com"
+    iosClientId:"iosClientId.secret",
+    androidClientId:"androidClientId.secret"
   })
 // caso nao esteja logado essa funcao cria ou loga o usuario
   React.useEffect(()=>{
