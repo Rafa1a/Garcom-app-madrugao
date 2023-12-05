@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "garcom-app",
+    "name": "Garçom",
     "slug": "garcom-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/garcom_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/lanche.png",
+      "image": "./assets/garcom_splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#2D2F31"
     },
@@ -23,8 +23,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/garcom_icon.png",
+        "backgroundColor": "#2D2F31"
       },
       "package": "com.madrugao.garcomapp",
       "runtimeVersion": "1.0.0"
