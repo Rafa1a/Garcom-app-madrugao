@@ -151,7 +151,6 @@ const adicionar_retirar = (props: adicionar_comp) => {
   
         // Se a quantidade for igual a zero, exclua o item
         if (add_retirar === 0) {
-          // setCheckbox1(false)
           newarray.splice(findIndex, 1);
         } else {
           newarray[findIndex].quantidade = add_retirar;
