@@ -125,6 +125,7 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
     // console.log("user",user_logado)    
     // atualizar entregando.
     setArray_state_porcoes(array_state_porcoes)
+    
     const atualizar_entregando = async() => {
       await onUpUser_entregando(user_logado.id,state_click);
     }

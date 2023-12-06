@@ -80,9 +80,9 @@ export interface pedido_props {
     setState_click?:(state_click:string[])=>void
     state_all_array?: pedido_inter[];
     //estoque
-    pedidos:pedido_inter[]
-    cardapio:any[]
-    onAtualizar_estoque:(id:string,estoque:number)=>void
+    pedidos?:pedido_inter[]
+    cardapio?:any[]
+    onAtualizar_estoque?:(id:string,estoque:number)=>void
 
 
     
