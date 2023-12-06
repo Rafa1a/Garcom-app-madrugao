@@ -57,12 +57,12 @@ class Lista extends React.Component<lista_pedido> {
         });
     }
     // Pedidos para entrega 
-    const pedidos_entrega = this.props.pedidos.filter(itens => {
-      return this.props.ids.some(id => itens.id === id);
-    });
+    // const pedidos_entrega = this.props.pedidos.filter(itens => {
+    //   return this.props.ids.some(id => itens.id === id);
+    // });
     
     // Usando flatMap para obter um único array de itens
-    const itens_entrega = pedidos_entrega.flatMap(itens => itens.itens);
+    const itens_entrega = this.props.chapeiro_bar_porcoes_itens?.flatMap(itens => itens.itens);
     
     // console.log(itens_entrega);
     // console.log(itens_entrega)
@@ -98,7 +98,7 @@ class Lista extends React.Component<lista_pedido> {
           style={styles.flat}
           data={mesa_outros_dada}
           keyExtractor={(item, index) => `${index}`}
-          renderItem={({ item, index }) =><Item_pedido {...item} objeto_lista_ids={this.objeto_lista_ids} mesa={mesa_outros_excluir}/>}
+          renderItem={({ item, index }) =><Item_pedido {...item} objeto_lista_ids={this.objeto_lista_ids} mesa={mesa_outros_excluir} chapeiro_bar_porcoes={this.props.chapeiro_bar_porcoes}/>}
           // ItemSeparatorComponent={() => <View style={styles.divider}/>}
         />
       

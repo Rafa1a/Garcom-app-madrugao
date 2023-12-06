@@ -51,7 +51,7 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
 
   useEffect(() => {
     ///////////// Filtro dos pedidos chapeiro/////////////////////
-    const pedidosChapeiro = pedidos.filter((pedido) => {
+    const pedidosChapeiro_filter_1 = pedidos.filter((pedido) => {
       return (
         pedido.status_chapeiro === false &&
         pedido.itens.some(
@@ -60,9 +60,15 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
             item.categoria_2 === 'hotdogs')
         )
       );
-    }); 
+    });
+    //filtrando corretament 
+    const pedidosChapeiro = pedidosChapeiro_filter_1.map((pedido) => {
+      const itensChapeiro = pedido.itens.filter((item) => item.categoria === 'comidas' && (item.categoria_2 === 'lanches' ||
+      item.categoria_2 === 'hotdogs'));
+      return { ...pedido, itens: itensChapeiro };
+    });
     ///////////// Filtro dos pedidos drinks/////////////////////
-    const pedidosBar = pedidos.filter((pedido) => {
+    const pedidosBar_filtrer_1 = pedidos.filter((pedido) => {
       return (
         pedido.status_bar === false &&
         pedido.itens.some(
@@ -71,8 +77,12 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
         )
       );
     }); 
+    const pedidosBar = pedidosBar_filtrer_1.map((pedido) => {
+      const itensBar = pedido.itens.filter((item) => item.categoria === 'bar');
+      return { ...pedido, itens: itensBar };
+    });
      ///////////// Filtro dos pedidos porcoes/////////////////////
-     const pedidosPorcoes = pedidos.filter((pedido) => {
+     const pedidosPorcoes_filter_1 = pedidos.filter((pedido) => {
       return (
         pedido.status_porcoes === false &&
         pedido.itens.some(
@@ -81,7 +91,10 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
         )
       );
     }); 
-
+    const pedidosPorcoes = pedidosPorcoes_filter_1.map((pedido) => {
+      const itensPorcoes = pedido.itens.filter((item) => item.categoria === 'comidas' && item.categoria_2 ==='porcoes');
+      return { ...pedido, itens: itensPorcoes };
+    });
     ///////////////// Filtro dos usuários chapeiro/////////////////////
     const Chapeiro_entregue = pedidosChapeiro.filter((item) => {
       return !users.some((user) => user.chapeiro?.includes(item.id));
@@ -101,7 +114,7 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
     ///porcoes
     setState_porcoes(Porcoes_entregue)
     // console.log('Chapeiros Entregues:', Chapeiro_entregue);  
-    // console.log('bar Entregues:', Bar_entregue);  
+    // console.log('bar Entregues:', Bar_entregue[0]);  
     // console.log('porcoes Entregues:', Porcoes_entregue);  
   }, [pedidos, users]);
 
@@ -125,11 +138,11 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
     // console.log("user",user_logado)    
     // atualizar entregando.
     setArray_state_porcoes(array_state_porcoes)
-    
+
     const atualizar_entregando = async() => {
       await onUpUser_entregando(user_logado.id,state_click);
     }
-    console.log(user_logado)
+    // console.log(user_logado)
     user_logado? atualizar_entregando() : null
     
   },[state_click,user_logado])
@@ -147,14 +160,15 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
     array_state_porcoes,
   ].filter(Boolean);
   
-  // console.log(consolidatedArray)
+  // console.log(consolidatedArray[1])
   // navegar para a listagem dos pedidos 
   const func_pedido_list = () =>{
 
       navigation.navigate('Pedido',{ 
         ids: state_click,
         numero_mesa: consolidatedArray[0]?.numero_mesa, 
-        chapeiro_bar_porcoes : true
+        chapeiro_bar_porcoes : true,
+        chapeiro_bar_porcoes_itens : consolidatedArray
         })
   }
 

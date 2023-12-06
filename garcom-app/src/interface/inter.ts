@@ -38,6 +38,9 @@ export interface ItemProps {
   //estoque
   onAtualizar_estoque:(id:string,estoque:number)=>void
   cardapio: any[]
+
+  //entrega
+  chapeiro_bar_porcoes?:boolean
 }
 
 export interface NumeroProps {
@@ -150,6 +153,7 @@ export interface user_fun{
     onFitchExcluir_Item:(id:string,item:ItemProps)=>void
     //entrega de pedido
     chapeiro_bar_porcoes?:boolean
+    chapeiro_bar_porcoes_itens?:pedido_inter[]
   }
  
   export interface pedido_itens_comp{

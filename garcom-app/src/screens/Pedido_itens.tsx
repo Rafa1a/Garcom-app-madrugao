@@ -18,7 +18,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
    
    
   render() {
-    const { numero_mesa, image_on, name_on, id, ids, rua, numero, pegar_local,dinheiro,pix,cartao, chapeiro_bar_porcoes } = this.props.route.params;
+    const { numero_mesa, image_on, name_on, id, ids, rua, numero, pegar_local,dinheiro,pix,cartao, chapeiro_bar_porcoes,chapeiro_bar_porcoes_itens } = this.props.route.params;
     
     const atualizar_pedido_mesa = () =>{
       this.props.onAtualizarPedido_Mesa(ids)
@@ -42,7 +42,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
       cartao={cartao}
       />
       {/*recebe o id depois faz um find em pedidos qual id === id_pedidos*/}
-      <Lista  numero_mesa={numero_mesa} ids={ids} chapeiro_bar_porcoes={chapeiro_bar_porcoes}/> 
+      <Lista  numero_mesa={numero_mesa} ids={ids} 
+      chapeiro_bar_porcoes={chapeiro_bar_porcoes}
+      chapeiro_bar_porcoes_itens={chapeiro_bar_porcoes_itens}
+      /> 
       {/* botao para atualizar o status_$ do PEDIDO */}
       
       <View style={styles.totalContainer}>

@@ -79,7 +79,7 @@ import { fetchatualizar_cardapio_estoque } from '../../store/action/cardapio';
 
 
 
-    const mesa_On = props.mesa?
+    const mesa_On = props.mesa? props.chapeiro_bar_porcoes?null:
     <Icon
         raised
         size={35}
