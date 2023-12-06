@@ -6,6 +6,7 @@ import { pedido_props } from '../interface/inter';
 import { connect } from 'react-redux';
 import { fetchExcluirPedido_Mesa } from '../store/action/pedidos';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { fetchatualizar_cardapio_estoque } from '../store/action/cardapio';
 
 const Pedido = (props: pedido_props) => {
  
@@ -68,9 +69,47 @@ const Pedido = (props: pedido_props) => {
   </Text>
   :null
   // funcao de deletar onFetchPedidos_Excluir e onFetchPedidos_Excluir_Mesa o primeiro deleta um item com 1 id o segundo deleta um array de ids pois mesa possui mais do q 1 pedido
-  const delete_ = () => {
-      Alert.alert(`Excluindo pedidos da mesa : ${props.numero_mesa}`);
-      props.onFetchPedidos_Excluir_Mesa(props.ids);
+  const delete_ = async() => {
+    Alert.alert(`Excluindo pedidos da mesa : ${props.numero_mesa}`);
+    await props.onFetchPedidos_Excluir_Mesa(props.ids);
+
+    const pedido_id = props.pedidos.filter(pe => props.ids.some(ids => pe.id === ids));
+      // console.log(pedido_id);
+    if (pedido_id) {
+      // console.log(pedido_id);
+
+      // Atualizar estoque adicionando o que retirou
+      const itens_bebidas = props.cardapio.filter(cardapioItem => {
+        return pedido_id.some(pedido => {
+          return pedido.itens.some(item => {
+            return item.id === cardapioItem.id && item.categoria === 'bebidas';
+          });
+        });
+      });
+      
+      // console.log(itens_bebidas);
+
+      const pedido_id_itens = pedido_id.flatMap(pedido => {
+        return pedido.itens.filter(item => item.categoria === 'bebidas');
+      })
+      // console.log(pedido_id_itens);
+
+      itens_bebidas.forEach(bebida => {
+        pedido_id_itens.forEach(async itens => {
+          if(bebida.id === itens.id){
+            if(bebida.estoque < 0){
+              const newQuantidade = itens.quantidade;
+              await props.onAtualizar_estoque(bebida.id, newQuantidade);
+            }else {
+              const newQuantidade = bebida.estoque + itens.quantidade;
+              await props.onAtualizar_estoque(bebida.id, newQuantidade);
+            }
+          }
+           
+        });
+      });
+
+    }
     
   }
   
@@ -161,11 +200,21 @@ const styles = StyleSheet.create({
   },
   outros: {},
 });
+
+const mapStateProps = ({ pedidos,cardapio }: { pedidos:any,cardapio: any}) => {
+  return {
+      cardapio: cardapio.cardapio,
+      pedidos: pedidos.pedidos,
+  };
+};
 const mapDispatchProps = (dispatch: any) => {
   return {
     
-    onFetchPedidos_Excluir_Mesa: (id:string[]) => dispatch(fetchExcluirPedido_Mesa(id))
+    onFetchPedidos_Excluir_Mesa: (id:string[]) => dispatch(fetchExcluirPedido_Mesa(id)),
+
+    onAtualizar_estoque:(id:string,estoque:number)=>dispatch(fetchatualizar_cardapio_estoque(id,estoque)),
+      
   };
 };
-export default connect(null,mapDispatchProps)(Pedido)
+export default connect(mapStateProps,mapDispatchProps)(Pedido)
  

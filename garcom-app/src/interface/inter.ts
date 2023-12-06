@@ -35,6 +35,9 @@ export interface ItemProps {
   adicionar_pedido:Item[]
   id?:string
   onAdicionar_pedido:(a:any)=>void
+  //estoque
+  onAtualizar_estoque:(id:string,estoque:number)=>void
+  cardapio: any[]
 }
 
 export interface NumeroProps {
@@ -76,6 +79,11 @@ export interface pedido_props {
     state_click?:string[]
     setState_click?:(state_click:string[])=>void
     state_all_array?: pedido_inter[];
+    //estoque
+    pedidos:pedido_inter[]
+    cardapio:any[]
+    onAtualizar_estoque:(id:string,estoque:number)=>void
+
 
     
   }

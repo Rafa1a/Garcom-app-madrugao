@@ -151,7 +151,7 @@ const adicionar_retirar = (props: adicionar_comp) => {
   
         // Se a quantidade for igual a zero, exclua o item
         if (add_retirar === 0) {
-          setCheckbox1(false)
+          // setCheckbox1(false)
           newarray.splice(findIndex, 1);
         } else {
           newarray[findIndex].quantidade = add_retirar;
@@ -180,6 +180,17 @@ const adicionar_retirar = (props: adicionar_comp) => {
 
 
   },[add_retirar])
+
+
+  //atualizar o checkbox quando nao tiver pedido
+  useEffect(()=>{
+    // console.log(props.adicionar_pedido) 
+    
+    if(add_retirar === 0 && props.adicionar_pedido.length === 0){
+      setCheckbox1(false)
+    }
+  },[add_retirar,props.adicionar_pedido])
+
 
   //funcao soma quantidade de TODOS
   const Soma = () => {
