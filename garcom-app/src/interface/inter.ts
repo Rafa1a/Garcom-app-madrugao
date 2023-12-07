@@ -13,6 +13,8 @@ export interface HeaderPedidoProps {
   id?:string
   ids?:string[]
   adicionar?:boolean
+  chapeiro_bar_porcoes?:boolean
+
 }
 export interface HeaderPedidosProps {
   mesa?: boolean;

@@ -81,15 +81,16 @@ import { connect } from 'react-redux';
       <SafeAreaView style={styles.container}>
         <View style={styles.headerTop}>
           <Text style={styles.textuser}>User :</Text>
-         {this.props.adicionar? null:<FAB
-            loading={this.state.loading}
-            onPress={()=>this.handlePress(pedido_itens,array_pdf)}
-            visible={true}
-            icon={{ name: 'print', color: '#d6cecd' }}
-            size="large"
-            color='#3C4043'
-            style={{ borderColor: 'tomato', borderWidth: 1, elevation: 15, shadowColor: 'tomato' }}
-          />}
+         {this.props.adicionar? null:this.props.chapeiro_bar_porcoes? null : 
+              <FAB
+                  loading={this.state.loading}
+                  onPress={()=>this.handlePress(pedido_itens,array_pdf)}
+                  visible={true}
+                  icon={{ name: 'print', color: '#d6cecd' }}
+                  size="large"
+                  color='#3C4043'
+                  style={{ borderColor: 'tomato', borderWidth: 1, elevation: 15, shadowColor: 'tomato' }}
+                />}
         </View>
         {userormesa}
         <Text style={styles.text}>{this.props.name_on}</Text>

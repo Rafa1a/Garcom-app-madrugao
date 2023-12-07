@@ -40,6 +40,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
       dinheiro={dinheiro}
       pix={pix}
       cartao={cartao}
+      chapeiro_bar_porcoes={chapeiro_bar_porcoes}
       />
       {/*recebe o id depois faz um find em pedidos qual id === id_pedidos*/}
       <Lista  numero_mesa={numero_mesa} ids={ids} 
