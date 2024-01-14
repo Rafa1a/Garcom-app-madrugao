@@ -16,6 +16,7 @@ import { Switch } from '@rneui/themed';
 import { addItemToPedidos, setAdicionar_pedido } from '../store/action/adicionar_pedido';
 import { CheckBox } from '@rneui/themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { fetchadicionar_list_ids } from '../store/action/pedidos';
 
 //////////////////////////////////////////////////
 const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigation,onAdicionar_pedido,pedidos,inicial_state_mesas }: pedido_itens_comp & { total: number }) => {
@@ -304,6 +305,7 @@ const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigat
           if(mesa){
             onAdicionarPedido(inicial_state_mesas)
             onAdicionar_pedido([])
+
             // //atualizar estado inicial
             navigation?.goBack();  // Voltar uma vez
             navigation?.goBack();  // Voltar mais uma vez

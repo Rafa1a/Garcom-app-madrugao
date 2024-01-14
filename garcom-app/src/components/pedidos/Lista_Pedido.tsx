@@ -42,9 +42,16 @@ class Lista extends React.Component<lista_pedido> {
     const objeto_pedido = this.props.pedidos.find((item: any) => item.id === this.props.id);
 
     // Itens do pedido da mesa
-    const itensPorMesa: { [key: number]: any[] } = {};
+    const itensPorMesa: { [keys: string]: any[] } = {};
 
-    if (this.props.pedidos_mesa) {
+    if (this.props.pedidos_mesa || this.props.pedidos_mesa_true) {
+        this.props.list_ids_bolean?
+        this.props.pedidos_mesa_true.forEach((obj: any) => {
+          const numeroMesa = obj.ids.join('');
+          const itens = obj.itens_all.flatMap((innerObj: any) => innerObj.itens).reduce((acc: any, cur: any) => acc.concat(cur), []);
+            itensPorMesa[numeroMesa] = itens;
+        }
+        ):
         this.props.pedidos_mesa.forEach((obj: any) => {
             const numeroMesa = obj.numero_mesa;
             const itens = obj.itens_all.flatMap((innerObj: any) => innerObj.itens).reduce((acc: any, cur: any) => acc.concat(cur), []);
@@ -54,8 +61,15 @@ class Lista extends React.Component<lista_pedido> {
             } else {
                 itensPorMesa[numeroMesa] = itens;
             }
-        });
+        }
+        );
+        
     }
+    //list_ids para localizar os itens da mesa quando status === true
+    const list_ids = this.props.pedidos_mesa_true
+      .find((pedido: any) => pedido.numero_mesa === this.props.numero_mesa && pedido.ids === this.props.ids)?.ids.join('');
+
+    // console.log(list_ids)
     // Pedidos para entrega 
     // const pedidos_entrega = this.props.pedidos.filter(itens => {
     //   return this.props.ids.some(id => itens.id === id);
@@ -69,7 +83,11 @@ class Lista extends React.Component<lista_pedido> {
     // console.log(itensPorMesa[this.props.numero_mesa]);
     
     //passando os dados correto caso seja mesa
-    const mesa_outros_dada = this.props.numero_mesa? this.props.chapeiro_bar_porcoes ? itens_entrega : itensPorMesa[this.props.numero_mesa]:objeto_pedido?.itens
+    const mesa_outros_dada = (this.props.numero_mesa? 
+    (this.props.chapeiro_bar_porcoes ? itens_entrega : 
+      (this.props.list_ids_bolean?itensPorMesa[list_ids]:itensPorMesa[this.props.numero_mesa])
+      )
+    :objeto_pedido?.itens)
     //passando a informacao correta caso seja mesa
     const mesa_outros_excluir = this.props.numero_mesa? true : false
 
@@ -98,7 +116,7 @@ class Lista extends React.Component<lista_pedido> {
           style={styles.flat}
           data={mesa_outros_dada}
           keyExtractor={(item, index) => `${index}`}
-          renderItem={({ item, index }) =><Item_pedido {...item} objeto_lista_ids={this.objeto_lista_ids} mesa={mesa_outros_excluir} chapeiro_bar_porcoes={this.props.chapeiro_bar_porcoes}/>}
+          renderItem={({ item, index }) =><Item_pedido {...item} objeto_lista_ids={this.objeto_lista_ids} mesa={mesa_outros_excluir} chapeiro_bar_porcoes={this.props.chapeiro_bar_porcoes} list_ids_boolean={this.props.list_ids_bolean}/>}
           // ItemSeparatorComponent={() => <View style={styles.divider}/>}
         />
       
@@ -127,7 +145,8 @@ flat :{
 const mapStateProps = ({ pedidos }: { pedidos: any}) => {
   return {
     pedidos: pedidos.pedidos,
-    pedidos_mesa:pedidos.pedidos_mesa
+    pedidos_mesa:pedidos.pedidos_mesa,
+    pedidos_mesa_true:pedidos.pedidos_mesa_true
   };
 };
 const mapDispatchProps = (dispatch :any) => {

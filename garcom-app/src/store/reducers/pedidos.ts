@@ -1,5 +1,5 @@
 import { initialState,actions } from "../../interface/inter_actions"
-import { SET_ADICIONAR_PEDIDO_ITENS, SET_MESAS, SET_PEDIDOS, SET_PEDIDOS_MESA, SET_TOTALVALOR } from "../action/actionTypes"
+import { SET_ADICIONAR_PEDIDO_ITENS, SET_MESAS, SET_PEDIDOS, SET_PEDIDOS_MESA, SET_PEDIDOS_MESA_TRUE, SET_TOTALVALOR } from "../action/actionTypes"
 
 const reducer = (state = initialState, action:actions) =>{
     switch (action.type) {
@@ -13,6 +13,12 @@ const reducer = (state = initialState, action:actions) =>{
             return {
                 ...state,
                 pedidos_mesa: action.payload
+            }
+        }
+        case SET_PEDIDOS_MESA_TRUE :{
+            return {
+                ...state,
+                pedidos_mesa_true: action.payload
             }
         }
         case SET_TOTALVALOR :{

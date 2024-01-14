@@ -43,6 +43,9 @@ export interface ItemProps {
 
   //entrega
   chapeiro_bar_porcoes?:boolean
+
+  //list_ids para listagem de itens
+  list_ids_boolean?:boolean
 }
 
 export interface NumeroProps {
@@ -89,6 +92,9 @@ export interface pedido_props {
     cardapio?:any[]
     onAtualizar_estoque?:(id:string,estoque:number)=>void
 
+    //list_ids para listagem de itens
+    list_ids_bolean?:boolean
+
 
     
   }
@@ -132,6 +138,9 @@ export interface user_fun{
     dinheiro:number;
     cartao:cartao;
     pix:boolean;
+    //lista de ids
+    list_ids:string[]
+
   }
  export interface cartao{
     visa:boolean;
@@ -141,12 +150,16 @@ export interface user_fun{
   export interface pedidos_mesa{
     status:false,
     id:string,
+    ids:string[],
     numero_mesa:number,
-    itens_all: pedido_inter[]
+    itens_all: pedido_inter[],
+    localidade: "MESA" | "ONLINE" | "OUTROS";
+
   }
 
   export interface lista_pedido {
     pedidos_mesa:pedidos_mesa[]
+    pedidos_mesa_true:pedidos_mesa[]
     pedidos:pedido_inter[]
     id?:string
     ids?:string[]
@@ -156,10 +169,13 @@ export interface user_fun{
     //entrega de pedido
     chapeiro_bar_porcoes?:boolean
     chapeiro_bar_porcoes_itens?:pedido_inter[]
+    //list_ids para listagem de itens
+    list_ids_bolean?:boolean
   }
  
   export interface pedido_itens_comp{
     pedidos:pedido_inter[]
+    pedidos_mesa:pedidos_mesa[]
     route: any;
     navigation ?: NavigationProp<any,any>;
     onAtualizarPedido: (id: any) => void;
@@ -167,6 +183,9 @@ export interface user_fun{
     onAdicionar_pedido: (id: any) => void;
     onAdicionarPedido: (id: any) => void;
     onAtualizarPedido_Mesa:(ids:string[])=>void
+    //list_ids para listagem de itens
+    onAdicionar_list_ids: (ids:string[],id:string) => void,
+
     total:number
     adicionar_pedido:Item[]
     inicial_state_mesas:pedido_inter

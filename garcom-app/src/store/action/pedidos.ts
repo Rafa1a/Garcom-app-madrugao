@@ -1,5 +1,5 @@
 
-import {SET_PEDIDOS,SET_PEDIDOS_MESA, SET_TOTALVALOR} from './actionTypes'
+import {SET_PEDIDOS,SET_PEDIDOS_MESA, SET_PEDIDOS_MESA_TRUE, SET_TOTALVALOR} from './actionTypes'
 import { Dispatch } from 'redux'
 //auth
 import { db } from '../auth';
@@ -126,6 +126,25 @@ export const fetchatualizar_pedido_mesa = (ids:string[]) => {
    
   }
 } 
+//adicionar list_ids pedidos numero mesa === numero mesa 
+export const fetchadicionar_list_ids = (ids:string[],id:string) => {
+  return async (dispatch:any)=>{
+    try{
+      const pedidoRef = doc(db, 'pedidos', id);
+      await updateDoc(pedidoRef, {
+        list_ids: ids
+      });
+    }catch (e) {
+      // console.error("Error fetching documents: ", e);
+      dispatch(setMessage({
+        title: 'Error',
+        text: 'Ocorreu um erro ao adicionar ids dos pedidos'
+      }))
+    }
+   
+  }
+}
+//adicionar list_ids pedidos numero mesa === numero mesa //fim
 
 // definir no redux os pedidos ACTION
 export const setPedidos =  (pedidos:any) => {
@@ -138,6 +157,12 @@ export const setPedidos =  (pedidos:any) => {
 export const setPedidos_MESA = (pedidos_mesa:any) => {
   return { 
       type:SET_PEDIDOS_MESA,
+      payload:pedidos_mesa
+  }
+}
+export const setPedidos_MESA_status_true = (pedidos_mesa:any) => {
+  return { 
+      type:SET_PEDIDOS_MESA_TRUE,
       payload:pedidos_mesa
   }
 }

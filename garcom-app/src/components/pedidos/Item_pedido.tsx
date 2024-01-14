@@ -80,6 +80,7 @@ import { fetchatualizar_cardapio_estoque } from '../../store/action/cardapio';
 
 
     const mesa_On = props.mesa? props.chapeiro_bar_porcoes?null:
+    props.list_ids_boolean?null:
     <Icon
         raised
         size={35}
@@ -120,7 +121,7 @@ import { fetchatualizar_cardapio_estoque } from '../../store/action/cardapio';
 
         console.log()
     return (
-        <SafeAreaView style={styles.container}> 
+        <View style={styles.container}> 
             <View style={styles.container_2}>
            
                 <View style={props.mesa?styles.container_3_mesa:styles.container_3||props.deleteitem?styles.container_3_mesa:styles.container_3}>
@@ -149,7 +150,7 @@ import { fetchatualizar_cardapio_estoque } from '../../store/action/cardapio';
                 </View>
             </View>
             
-        </SafeAreaView>
+        </View>
     );
 }
 
