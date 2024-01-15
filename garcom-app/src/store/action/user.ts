@@ -184,6 +184,27 @@ export const fetch_user_porcoes = (id:string,ids_pedidos:string[]) => {
    
   }
 }
+// Atualizar user bebidas :
+export const fetch_user_bebidas = (id:string,ids_pedidos:string[]) => {
+  return async (dispatch:any)=>{
+    // console.log(number)
+    try{
+      for(const ids of ids_pedidos){
+        const pedidoRef = doc(db, 'user_func', id);
+        await updateDoc(pedidoRef, {
+          bebidas : arrayUnion(ids)
+      });
+      }
+    }catch (e) {
+      console.error("Error fetching documents: ", e);
+      dispatch(setMessage({
+        title: 'Error',
+        text: 'Ocorreu um erro ao atualizar user bebdias'
+      }))
+    }
+   
+  }
+}
 export const setUser =  (users:user_fun[]) => {
     return { 
         type:GET_USER,

@@ -146,7 +146,7 @@ const mapStateProps = ({ pedidos }: { pedidos: any}) => {
   return {
     total: pedidos.total,
     pedidos: pedidos.pedidos,
-    pedidos_mesa:pedidos.pedidos_mesa
+    pedidos_mesa:pedidos.pedidos_mesa,
 
   };
 };

@@ -8,7 +8,7 @@ import Entrega from '../components/call_entrega/Entrega';
 import { Feather } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
-import { fetch_user_bar, fetch_user_call, fetch_user_chapeiro, fetch_user_entregando, fetch_user_porcoes } from '../store/action/user';
+import { fetch_user_bar, fetch_user_bebidas, fetch_user_call, fetch_user_chapeiro, fetch_user_entregando, fetch_user_porcoes } from '../store/action/user';
 import { fetch_mesa_status_call } from '../store/action/mesas';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -23,21 +23,24 @@ interface Props {
   onUpUser_chapeiro:(id:string, ids_pedidos:string[]) =>void
   onUpUser_bar:(id:string, ids_pedidos:string[]) =>void
   onUpUser_porcoes:(id:string, ids_pedidos:string[]) =>void
+  onUpUser_bebidas:(id:string, ids_pedidos:string[]) =>void
   pedidos_mesa:any
   pedidos: pedido_inter[];
 }
-const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregando,onUpUser_chapeiro,onUpUser_bar,onUpUser_porcoes }:Props) => {
+const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregando,onUpUser_chapeiro,onUpUser_bar,onUpUser_bebidas,onUpUser_porcoes, }:Props) => {
 
 
   const [state_chapeiro,setState_chapeiro] = useState<pedido_inter[]>()
   const [state_bar,setState_bar] = useState<pedido_inter[]>()
   const [state_porcoes,setState_porcoes] = useState<pedido_inter[]>()
+  const [state_bebidas,setState_bebidas] = useState<pedido_inter[]>()
   const [state_click,setState_click] = useState<string[]>([])
   //variavel :
   const [user_logado, setUser_logado] = useState<any>(null) 
   const [array_state_chapeiro,setArray_state_chapeiro] = useState<any>({})
   const [array_state_bar,setArray_state_bar] = useState<any>({})
   const [array_state_porcoes,setArray_state_porcoes] = useState<any>({})
+  const [array_state_bebidas,setArray_state_bebidas] = useState<any>({})
 
   useEffect(()=>{
     //////////// Atualizar o estado do user globalmente //////////////////////
@@ -77,9 +80,21 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
         )
       );
     }); 
+    // console.log('pedidosBar_filtrer_1 : //',pedidosBar_filtrer_1)
     const pedidosBar = pedidosBar_filtrer_1.map((pedido) => {
       const itensBar = pedido.itens.filter((item) => item.categoria === 'bar');
       return { ...pedido, itens: itensBar };
+    });
+    ///////////// Filtro dos pedidos bebidas/////////////////////
+    const pedidosBebidas_filtrer_1 = pedidos.filter((pedido) => {
+      return (
+        pedido.array_bebidas?.length > 0
+      );
+    }); 
+    // console.log(pedidosBebidas_filtrer_1)
+    const pedidosBebidas = pedidosBebidas_filtrer_1.map((pedido) => {
+      const itensBebidas = pedido.itens.filter((item) =>  pedido.array_bebidas?.includes(item.id));
+      return { ...pedido, itens: itensBebidas };
     });
      ///////////// Filtro dos pedidos porcoes/////////////////////
      const pedidosPorcoes_filter_1 = pedidos.filter((pedido) => {
@@ -103,15 +118,23 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
     const Bar_entregue = pedidosBar.filter((item) => {
       return !users.some((user) => user.bar?.includes(item.id));
     });
+    ///////////////// Filtro dos usuários bebidas/////////////////////
+    const Bebidas_entregue = pedidosBebidas.filter((item) => {
+      return !users.some((user) => user.bebidas?.includes(item.id));
+    });
     ///////////////// Filtro dos usuários porcoes/////////////////////
     const Porcoes_entregue = pedidosPorcoes.filter((item) => {
       return !users.some((user) => user.porcoes?.includes(item.id));
     });
     ///chapeiro
+    Chapeiro_entregue.sort((a,b) => a.ordem - b.ordem)
     setState_chapeiro(Chapeiro_entregue)
     ///bar
     setState_bar(Bar_entregue)
+    ///bebidas
+    setState_bebidas(Bebidas_entregue)
     ///porcoes
+    Porcoes_entregue.sort((a,b) => a.ordem - b.ordem)
     setState_porcoes(Porcoes_entregue)
     // console.log('Chapeiros Entregues:', Chapeiro_entregue);  
     // console.log('bar Entregues:', Bar_entregue[0]);  
@@ -119,25 +142,30 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
   }, [pedidos, users]);
 
   
-
+  ////////////////////////ARRAY STATE Atualizar o estado do user globalmente //////////////////////
   useEffect(()=>{
     ////////////// Verfica se o id é igual ao array state  chapeiro ////////////////////
-    const array_state_chapeiro_ = state_chapeiro?.find(item => {
+    const array_state_chapeiro_ = state_chapeiro?.filter(item => {
       return state_click?.some(i=> item.id=== i)
     })
     setArray_state_chapeiro(array_state_chapeiro_)
     ////////////// Verfica se o id é igual ao array state bar ////////////////////
-    const array_state_bar = state_bar?.find(item => {
+    const array_state_bar = state_bar?.filter(item => {
       return state_click?.some(i=> item.id=== i)
     })
     setArray_state_bar(array_state_bar)
-    ////////////// Verfica se o id é igual ao array state porcoes ////////////////////
-    const array_state_porcoes = state_porcoes?.find(item => {
+    ////////////// Verfica se o id é igual ao array state bebidas ////////////////////
+    const array_state_bebidas = state_bebidas?.filter(item => {
       return state_click?.some(i=> item.id=== i)
     })
+    setArray_state_bebidas(array_state_bebidas)
+    ////////////// Verfica se o id é igual ao array state porcoes ////////////////////
+    const array_state_porcoes = state_porcoes?.filter(item => {
+      return state_click?.some(i=> item.id=== i)
+    })
+    setArray_state_porcoes(array_state_porcoes)
     // console.log("user",user_logado)    
     // atualizar entregando.
-    setArray_state_porcoes(array_state_porcoes)
 
     const atualizar_entregando = async() => {
       await onUpUser_entregando(user_logado.id,state_click);
@@ -153,17 +181,37 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
   // console.log("lanches",array_state_chapeiro)
   // console.log("bar",array_state_bar)
   // console.log("porcoes",array_state_porcoes)
+  /////////////////////////// Consolidar array para enviar para a tela de pedidos ///////////////////////////
+  const [consolidatedArray, setConsolidatedArray] = useState<any>([])
+  const [Array_bar_bebidas, setArray_bar_bebidas] = useState<any>([])
+  useEffect(()=>{
+    const consolidatedArray = [
+      array_state_chapeiro,
+      array_state_bar,
+      array_state_bebidas,
+      array_state_porcoes,
+    ].flat().filter(Boolean);
 
-  const consolidatedArray = [
-    array_state_chapeiro,
-    array_state_bar,
-    array_state_porcoes,
-  ].filter(Boolean);
-  
+    setConsolidatedArray(consolidatedArray)
+
+  },[array_state_chapeiro,array_state_bar,array_state_bebidas,array_state_porcoes])
+  //////////////////////////////// Consolidar array para enviar para a tela de pedidos ///////////////////////////
+  //atualizar o array bar e bebidas
+  useEffect(()=>{
+  const Array_bar_bebidas = [
+    state_bar,
+    state_bebidas,
+  ].flat().filter(Boolean);
+  Array_bar_bebidas.sort((a,b) => a.ordem - b.ordem)
+  setArray_bar_bebidas(Array_bar_bebidas)
+  // console.log('Array_bar_bebidas',Array_bar_bebidas)
+  },[state_bar,state_bebidas])
+
+    // console.log('Array_bar_bebidas',state_bebidas)
   // console.log(consolidatedArray[1])
   // navegar para a listagem dos pedidos 
-  const func_pedido_list = () =>{
-
+  const func_pedido_list = () =>{   
+      console.log('consolidatedArray',consolidatedArray)
       navigation.navigate('Pedido',{ 
         ids: state_click,
         numero_mesa: consolidatedArray[0]?.numero_mesa, 
@@ -206,9 +254,9 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
         </View>
         <FlatList
           scrollEnabled={false}
-          data={state_bar}
+          data={Array_bar_bebidas}
           //item ja retorna apenas os status_chapeiro de acordo com o back0end query
-          keyExtractor={item => `${item.id}`}
+          keyExtractor={(item,index) => `${index}`}
           renderItem={({ item,index }) => {
               // condicoes para realizar a pesquisa e filtro sobre os resultados obtidos
 
@@ -252,10 +300,13 @@ const Pedidos = ({ mesas, users,navigation,pedidos,user_login,onUpUser_entregand
       <View style={styles.container_Buttons}>
         <MaterialCommunityIcons name="playlist-edit" size={35} color="tomato" onPress={func_pedido_list}/>
         <Feather name="x-octagon" size={30} color="tomato"  onPress={async()=> {
-        array_state_chapeiro?await onUpUser_chapeiro(user_logado.id,state_click):null
-        array_state_bar?await onUpUser_bar(user_logado.id,state_click):null
-        array_state_porcoes?await onUpUser_porcoes(user_logado.id,state_click):null
-        setState_click([])
+          console.log(array_state_bar.length > 0)
+          console.log(array_state_bebidas.length > 0)
+          array_state_chapeiro.length > 0 ?await onUpUser_chapeiro(user_logado.id,state_click):null
+          array_state_bar.length > 0?await onUpUser_bar(user_logado.id,state_click):null
+          array_state_bebidas.length > 0?await onUpUser_bebidas(user_logado.id,state_click):null
+          array_state_porcoes.length > 0?await onUpUser_porcoes(user_logado.id,state_click):null
+          setState_click([])
         }}/>
       </View>:null}
     </SafeAreaView>
@@ -320,6 +371,7 @@ const mapDispatchProps = (dispatch: any) => {
     onUpUser_chapeiro: (id:string,ids_pedidos:string[]) => dispatch(fetch_user_chapeiro(id,ids_pedidos)),
     onUpUser_bar: (id:string,ids_pedidos:string[]) => dispatch(fetch_user_bar(id,ids_pedidos)),
     onUpUser_porcoes: (id:string,ids_pedidos:string[]) => dispatch(fetch_user_porcoes(id,ids_pedidos)),
+    onUpUser_bebidas: (id:string,ids_pedidos:string[]) => dispatch(fetch_user_bebidas(id,ids_pedidos)),
   };
 };
 export default connect(mapStateProps, mapDispatchProps)(Pedidos);

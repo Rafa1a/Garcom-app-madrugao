@@ -4,8 +4,6 @@ import { Avatar, Icon } from '@rneui/themed';
 import Number from '../Number';
 import { pedido_props } from '../../interface/inter';
 import { connect } from 'react-redux';
-import { fetchExcluirPedido_Mesa } from '../../store/action/pedidos';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { fetch_mesa_status_user_call } from '../../store/action/mesas';
 import { fetch_user_call } from '../../store/action/user';
 
@@ -56,7 +54,7 @@ const Pedido = (props: pedido_props) => {
 
   return  (
       
-    <SafeAreaView style={styles.containerM}>
+    <View style={styles.containerM}>
       <TouchableOpacity onPress={func_Uptades}>
         <View style={props.styles?styles.containerindex0:styles.container}>
           <View style={styles.content}>
@@ -77,7 +75,7 @@ const Pedido = (props: pedido_props) => {
         }}
       />:null
       :null}
-    </SafeAreaView>
+    </View>
   
   );
 };

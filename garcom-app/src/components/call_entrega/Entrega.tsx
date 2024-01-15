@@ -73,7 +73,7 @@ const Pedido = (props: pedido_props) => {
 
   return  (
       
-    <SafeAreaView style={styles.containerM}>
+    <View style={styles.containerM}>
       <TouchableOpacity onPress={func_click}>
         <View style={props.styles?styles.containerindex0:styles.container}>
           <View style={styles.content}>
@@ -119,7 +119,7 @@ const Pedido = (props: pedido_props) => {
           aspectRatio: 1,
         }}
       />:null}
-    </SafeAreaView>
+    </View>
   
   );
 };

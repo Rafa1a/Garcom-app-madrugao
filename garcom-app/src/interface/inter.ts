@@ -108,6 +108,7 @@ export interface user_fun{
   call:number;
   chapeiro?:string[]
   bar?:string[]
+  bebidas?:string[]
   porcoes?:string[]
   entregando?:string[]
 }
@@ -140,6 +141,8 @@ export interface user_fun{
     pix:boolean;
     //lista de ids
     list_ids:string[]
+    //solucao para bebidas
+    array_bebidas?:String[]
 
   }
  export interface cartao{
@@ -182,6 +185,7 @@ export interface user_fun{
     onAtualizar_pedido: (id: any) => void;
     onAdicionar_pedido: (id: any) => void;
     onAdicionarPedido: (id: any) => void;
+    onPedidos_ordem: () => void;
     onAtualizarPedido_Mesa:(ids:string[])=>void
     //list_ids para listagem de itens
     onAdicionar_list_ids: (ids:string[],id:string) => void,
@@ -189,6 +193,10 @@ export interface user_fun{
     total:number
     adicionar_pedido:Item[]
     inicial_state_mesas:pedido_inter
+
+    maior_ordem:number
+
+
   }
 
   export interface Mesas {

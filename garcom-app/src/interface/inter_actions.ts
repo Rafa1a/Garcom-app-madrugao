@@ -9,7 +9,8 @@ export const initialState:any = {
     pedidos: undefined,
     pedidos_mesa:[],
     total:0,
-    adicionar_pedido:[]
+    adicionar_pedido:[],
+    ordem:0,
 }
 export const initialState_cardapio:any = {
     cardapio:undefined

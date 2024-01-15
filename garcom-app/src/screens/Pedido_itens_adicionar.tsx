@@ -16,35 +16,41 @@ import { Switch } from '@rneui/themed';
 import { addItemToPedidos, setAdicionar_pedido } from '../store/action/adicionar_pedido';
 import { CheckBox } from '@rneui/themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { fetchadicionar_list_ids } from '../store/action/pedidos';
+import { fetchadicionar_list_ids, fetchpedidos_ordem } from '../store/action/pedidos';
 
 //////////////////////////////////////////////////
-const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigation,onAdicionar_pedido,pedidos,inicial_state_mesas }: pedido_itens_comp & { total: number }) => {
+const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigation,onAdicionar_pedido,onPedidos_ordem,pedidos,inicial_state_mesas,maior_ordem }: pedido_itens_comp & { total: number }) => {
   
   const { numero_mesa, mesa } = route.params;
   
   // console.log(numero_mesa,mesa)
   
   
-  
+  const [loading, setLoading] = useState(false);
   useEffect(()=>{
+    const fetch = async () => {
+    setLoading(true)
+    await onPedidos_ordem()
+    setLoading(false)
+    }
+    fetch()
+    // console.log(maior_ordem)
     const ordemMaisAlta = () => {
-      if (pedidos.length === 0) {
-        return 0; // Retorna 0 se não houver pedidos
-      }
+      // if (pedidos.length === 0) {
+      //   return 0; // Retorna 0 se não houver pedidos
+      // }
   
       // Encontrar o pedido com a ordem mais alta
-      const ordens = pedidos.map(item => item.ordem);
-      const ordemMaxima = Math.max(...ordens);
+      // const ordens = pedidos.map(item => item.ordem);
+      // const ordemMaxima = Math.max(...ordens);
       // console.log(ordemMaxima + 1)
-      return ordemMaxima + 1;
+      return maior_ordem + 1;
     };
-  
    if(mesa){
       inicial_state_mesas.numero_mesa = numero_mesa
       inicial_state_mesas.ordem = ordemMaisAlta()
    } 
-  },[pedidos])
+  },[pedidos,maior_ordem])
   
     //state de rua numero e local// uso apenas para OUTROS
     const [textRua, setTextRua] = useState('');
@@ -300,19 +306,20 @@ const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigat
 
           
           {/* button finalizar pedido */}
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity onPress={async() => {
           
           if(mesa){
-            onAdicionarPedido(inicial_state_mesas)
+            setLoading(true)
+            await onAdicionarPedido(inicial_state_mesas)
             onAdicionar_pedido([])
-
+            setLoading(false)
             // //atualizar estado inicial
             navigation?.goBack();  // Voltar uma vez
             navigation?.goBack();  // Voltar mais uma vez
           }
 
           }} style={styles.button}>
-          <Text style={styles.buttonText}>Finalizar</Text>
+          {loading? <Text style={styles.buttonText}>Carregando...</Text>:<Text style={styles.buttonText}>Finalizar Pedido</Text>}
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -453,13 +460,16 @@ const mapStateProps = ({ pedidos,state }: { pedidos: any,state:any }) => {
     pedidos: pedidos.pedidos,
     total: pedidos.total,
     adicionar_pedido:pedidos.adicionar_pedido,
-    inicial_state_mesas:state.state_mesas
+    inicial_state_mesas:state.state_mesas,
+    maior_ordem:pedidos.ordem
+
   };
 };
 const mapDispatchProps = (dispatch: any) => {
   return {
     onAdicionarPedido: (item:any) => dispatch(addItemToPedidos(item)),
     onAdicionar_pedido: (pedido:[]) => dispatch(setAdicionar_pedido(pedido)),
+    onPedidos_ordem: () => dispatch(fetchpedidos_ordem()),
   };
 };
 export default connect(mapStateProps, mapDispatchProps)(Pedido_itens);

@@ -1,5 +1,5 @@
 import { initialState,actions } from "../../interface/inter_actions"
-import { SET_ADICIONAR_PEDIDO_ITENS, SET_MESAS, SET_PEDIDOS, SET_PEDIDOS_MESA, SET_PEDIDOS_MESA_TRUE, SET_TOTALVALOR } from "../action/actionTypes"
+import { SET_ADICIONAR_PEDIDO_ITENS, SET_MAIOR_ORDEM, SET_MESAS, SET_PEDIDOS, SET_PEDIDOS_MESA, SET_PEDIDOS_MESA_TRUE, SET_TOTALVALOR } from "../action/actionTypes"
 
 const reducer = (state = initialState, action:actions) =>{
     switch (action.type) {
@@ -37,6 +37,12 @@ const reducer = (state = initialState, action:actions) =>{
             return {
                 ...state,
                 mesas: action.payload
+            }
+        }
+        case SET_MAIOR_ORDEM : {
+            return {
+                ...state,
+                ordem: action.payload
             }
         }
         default :

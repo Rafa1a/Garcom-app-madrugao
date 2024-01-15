@@ -92,6 +92,8 @@ const Pedidos = ({ pedidos,pedidos_mesa,pedidos_mesa_true,onFetchPedidos_Mesa,on
       <Header mesa navigation={navigation} />
       
       <FlatList
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         style={{flex:1}}
         
         data={pedidos_mesa}
@@ -115,6 +117,8 @@ const Pedidos = ({ pedidos,pedidos_mesa,pedidos_mesa_true,onFetchPedidos_Mesa,on
       />
       
       <FlatList
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         style={{flex:1}}
         data={pedidos_mesa_true}
         //item ja retorna apenas os status_chapeiro de acordo com o back0end query

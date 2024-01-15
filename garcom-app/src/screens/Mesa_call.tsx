@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {  StyleSheet, Text, View, FlatList, Dimensions, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchpedidos,setPedidos_MESA,startPedidosListener} from '../store/action/pedidos';
+import { setPedidos_MESA,startPedidosListener} from '../store/action/pedidos';
 import { Mesas, pedido_inter, user_fun } from '../interface/inter';
 import Header from '../components/headers/Header_pedidos';
 import { NavigationProp } from '@react-navigation/native';

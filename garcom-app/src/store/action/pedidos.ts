@@ -1,5 +1,5 @@
 
-import {SET_PEDIDOS,SET_PEDIDOS_MESA, SET_PEDIDOS_MESA_TRUE, SET_TOTALVALOR} from './actionTypes'
+import {SET_MAIOR_ORDEM, SET_PEDIDOS,SET_PEDIDOS_MESA, SET_PEDIDOS_MESA_TRUE, SET_TOTALVALOR} from './actionTypes'
 import { Dispatch } from 'redux'
 //auth
 import { db } from '../auth';
@@ -35,37 +35,30 @@ export const startPedidosListener = () => {
   };
 };
 
-
 //chamada assyncrona com o firebase get () com QUERY e WHERE retornando uma consulta especifica
 
-// export const fetchpedidos =  () =>{
-//   return async (dispatch:any)=>{
-//     try {
-//       const q = query(collection(db, "pedidos"), where("localidade", "==", 'MESA'));
-//       // const pedidosCol = collection(db, 'pedidos');
-//       const querySnapshot = await getDocs(q);
-//       const pedidos = querySnapshot.docs.map((doc) => {
-//         const rawPedidos = doc.data();
-//         return {
-//           ...rawPedidos,
-//           id: doc.id
-//         };
-//       }); 
-//       pedidos.sort((a:any, b:any) => b.ordem - a.ordem)
-//       // console.log("pedidos :",pedidos )
-      
-//        dispatch(setPedidos(pedidos))
-      
-//     } catch (e) {
-//       // console.error("Error fetching documents: ", e);
-//       dispatch(setMessage({
-//         title: 'Error',
-//         text: 'Ocorreu um erro ao contatar o servidor dos Pedidos'
-//       }))
-//     }
-    
-//   }
-// }
+export const fetchpedidos_ordem =  () =>{
+  return async (dispatch:any)=>{
+    try {
+      const q = query(collection(db, "pedidos"));
+      const querySnapshot = await getDocs(q);
+      const pedidos:any = querySnapshot.docs.map((doc) => {
+        const rawPedidos = doc.data();
+        return {
+          ...rawPedidos,
+          id: doc.id
+        };
+      }); 
+      pedidos.sort((a:any, b:any) => b.ordem - a.ordem);
+      dispatch(setMaior_ordem(pedidos[0].ordem || 0));
+    } catch (e) {
+      dispatch(setMessage({
+        title: 'Error',
+        text: 'Ocorreu um erro ao contatar o servidor dos Pedidos'
+      }))
+    }
+  }
+}
 
 // Excluir Pedido :
 
@@ -151,6 +144,13 @@ export const setPedidos =  (pedidos:any) => {
   return { 
       type:SET_PEDIDOS,
       payload:pedidos
+  }
+
+}
+export const setMaior_ordem =  (ordem:any) => {
+  return { 
+      type:SET_MAIOR_ORDEM,
+      payload:ordem
   }
 
 }

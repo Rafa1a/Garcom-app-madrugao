@@ -5,7 +5,6 @@ import Number from './Number';
 import { pedido_props } from '../interface/inter';
 import { connect } from 'react-redux';
 import { fetchExcluirPedido_Mesa } from '../store/action/pedidos';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { fetchatualizar_cardapio_estoque } from '../store/action/cardapio';
 
 const Pedido = (props: pedido_props) => {
@@ -116,7 +115,7 @@ const Pedido = (props: pedido_props) => {
   
   return  (
       
-    <SafeAreaView style={styles.containerM}>
+    <View style={styles.containerM}>
       <TouchableOpacity onPress={handlePress }>
       <View style={props.styles?styles.containerindex0:styles.container}>
       <View style={styles.content}>
@@ -140,7 +139,7 @@ const Pedido = (props: pedido_props) => {
       
       </TouchableOpacity>
       
-    </SafeAreaView>
+    </View>
   
   );
 };
