@@ -63,7 +63,6 @@ class Lista extends React.Component<lista_pedido> {
             }
         }
         );
-        
     }
     //list_ids para localizar os itens da mesa quando status === true
     const list_ids = this.props.pedidos_mesa_true
