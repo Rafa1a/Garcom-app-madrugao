@@ -1,4 +1,5 @@
 import { NavigationProp } from "@react-navigation/native";
+import { cardapio } from "./inter_cardapio";
 export interface HeaderPedidoProps {
   numero_mesa?: number;
   image_on?: string;
@@ -178,6 +179,7 @@ export interface user_fun{
  
   export interface pedido_itens_comp{
     pedidos:pedido_inter[]
+    cardapio:cardapio[]
     pedidos_mesa:pedidos_mesa[]
     route: any;
     navigation ?: NavigationProp<any,any>;
@@ -187,6 +189,7 @@ export interface user_fun{
     onAdicionarPedido: (id: any) => void;
     onPedidos_ordem: () => void;
     onAtualizarPedido_Mesa:(ids:string[])=>void
+    onPedidos_quantidades: (id:string,number:number) => void;
     //list_ids para listagem de itens
     onAdicionar_list_ids: (ids:string[],id:string) => void,
 

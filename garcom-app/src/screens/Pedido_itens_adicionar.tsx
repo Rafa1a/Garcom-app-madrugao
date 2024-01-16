@@ -17,9 +17,10 @@ import { addItemToPedidos, setAdicionar_pedido } from '../store/action/adicionar
 import { CheckBox } from '@rneui/themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fetchadicionar_list_ids, fetchpedidos_ordem } from '../store/action/pedidos';
+import { fetchatualizar_cardapio_pedidos_quantidade } from '../store/action/cardapio';
 
 //////////////////////////////////////////////////
-const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigation,onAdicionar_pedido,onPedidos_ordem,pedidos,inicial_state_mesas,maior_ordem }: pedido_itens_comp & { total: number }) => {
+const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigation,onAdicionar_pedido,onPedidos_ordem,pedidos,inicial_state_mesas,maior_ordem,cardapio,onPedidos_quantidades }: pedido_itens_comp & { total: number }) => {
   
   const { numero_mesa, mesa } = route.params;
   
@@ -307,9 +308,20 @@ const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigat
           
           {/* button finalizar pedido */}
         <TouchableOpacity onPress={async() => {
-          
+          const pedidos_quantidades = async () => {
+            adicionar_pedido.forEach(async(item:any) => {
+              cardapio.forEach(async(item2:any) => {
+                if(item.id === item2.id){
+                  const pedidos_quantidade = Number(item2.pedidos_quantidade||0) + item.quantidade
+                  // console.log(pedidos_quantidade)
+                  await onPedidos_quantidades(item.id,pedidos_quantidade)
+                }
+              })
+            })
+          }
           if(mesa){
             setLoading(true)
+            pedidos_quantidades()
             await onAdicionarPedido(inicial_state_mesas)
             onAdicionar_pedido([])
             setLoading(false)
@@ -455,14 +467,16 @@ const styles = StyleSheet.create({
 
 });
 
-const mapStateProps = ({ pedidos,state }: { pedidos: any,state:any }) => {
+const mapStateProps = ({ pedidos,state,cardapio }: { pedidos: any,state:any,cardapio:any }) => {
   return {
     pedidos: pedidos.pedidos,
     total: pedidos.total,
     adicionar_pedido:pedidos.adicionar_pedido,
     inicial_state_mesas:state.state_mesas,
-    maior_ordem:pedidos.ordem
+    maior_ordem:pedidos.ordem,
 
+
+    cardapio:cardapio.cardapio,
   };
 };
 const mapDispatchProps = (dispatch: any) => {
@@ -470,6 +484,7 @@ const mapDispatchProps = (dispatch: any) => {
     onAdicionarPedido: (item:any) => dispatch(addItemToPedidos(item)),
     onAdicionar_pedido: (pedido:[]) => dispatch(setAdicionar_pedido(pedido)),
     onPedidos_ordem: () => dispatch(fetchpedidos_ordem()),
+    onPedidos_quantidades: (id:string,number:number) => dispatch(fetchatualizar_cardapio_pedidos_quantidade(id,number)),
   };
 };
 export default connect(mapStateProps, mapDispatchProps)(Pedido_itens);
