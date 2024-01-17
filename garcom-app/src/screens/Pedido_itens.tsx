@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { fetchadicionar_list_ids, fetchatualizar_pedido_mesa} from '../store/action/pedidos' 
 import { pedido_itens_comp } from '../interface/inter';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { fetchAtualizarUser_status_mesa } from '../store/action/user';
 
 
  const pedidos_itens = (props:pedido_itens_comp) =>{
@@ -70,7 +71,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
       {(chapeiro_bar_porcoes ? null :
         (list_ids_bolean ? null :	
         <TouchableOpacity onPress={async()=>{
+          const users_status_mesa = async () => {
+            await props.onUsers_status_mesa(numero_mesa)
+          }
           setLoading(true)
+          users_status_mesa()
           await atualizar_pedido_mesa()
           await adicionar_list_ids()
           props.navigation?.goBack()
@@ -154,6 +159,7 @@ const mapDispatchProps = (dispatch: any) => {
   return {
     onAtualizarPedido_Mesa: (ids:any) => dispatch(fetchatualizar_pedido_mesa(ids)),
     onAdicionar_list_ids: (ids:string[],id:string) => dispatch(fetchadicionar_list_ids(ids,id)),
+    onUsers_status_mesa: (numero_mesa:number) => dispatch(fetchAtualizarUser_status_mesa(numero_mesa)),
 
   };
 };

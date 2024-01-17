@@ -18,6 +18,7 @@ import { CheckBox } from '@rneui/themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fetchadicionar_list_ids, fetchpedidos_ordem } from '../store/action/pedidos';
 import { fetchatualizar_cardapio_pedidos_quantidade } from '../store/action/cardapio';
+import { fetchAtualizarUser_status_mesa } from '../store/action/user';
 
 //////////////////////////////////////////////////
 const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigation,onAdicionar_pedido,onPedidos_ordem,pedidos,inicial_state_mesas,maior_ordem,cardapio,onPedidos_quantidades }: pedido_itens_comp & { total: number }) => {
@@ -319,6 +320,7 @@ const Pedido_itens = ({ route, total, adicionar_pedido,onAdicionarPedido,navigat
               })
             })
           }
+          
           if(mesa){
             setLoading(true)
             pedidos_quantidades()

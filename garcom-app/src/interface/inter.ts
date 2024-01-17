@@ -190,6 +190,8 @@ export interface user_fun{
     onPedidos_ordem: () => void;
     onAtualizarPedido_Mesa:(ids:string[])=>void
     onPedidos_quantidades: (id:string,number:number) => void;
+    //atualziar mesa
+    onUsers_status_mesa: (numero_mesa:number) => void;
     //list_ids para listagem de itens
     onAdicionar_list_ids: (ids:string[],id:string) => void,
 

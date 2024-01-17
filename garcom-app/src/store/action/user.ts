@@ -205,6 +205,41 @@ export const fetch_user_bebidas = (id:string,ids_pedidos:string[]) => {
    
   }
 }
+//users_on deslogar users quando finalizar pedido
+//funcao para deslogar todos os users q estiver na mesa 
+export const fetchAtualizarUser_status_mesa = (numero_mesa:number) => {
+  return async (dispatch: any) => {
+    try {
+      const q = collection(db, "user_on");
+      const querySnapshot = await getDocs(q);
+      const users: any[] = [];
+      querySnapshot.forEach((doc) => {
+          const rawUsers = doc.data();
+          users.push({...rawUsers,
+            id: doc.id}) 
+        });
+
+      users.forEach(async (user) => {
+        if(user.status_mesa){
+          if(user.mesa === numero_mesa){
+            await updateDoc(doc(db, 'user_on', user.id), {
+              status_mesa: false,
+              mesa: 0
+            }); 
+          }
+        }
+      });
+    } catch (error) {
+      // Adicione tratamento de erro conforme necessário
+      dispatch(
+        setMessage({
+          title: 'Error',
+          text: 'Ocorreu um erro ao atualziar user online',
+        })
+      );
+    }
+  }
+}
 export const setUser =  (users:user_fun[]) => {
     return { 
         type:GET_USER,
