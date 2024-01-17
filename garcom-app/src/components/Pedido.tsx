@@ -126,7 +126,7 @@ const Pedido = (props: pedido_props) => {
       
       {/* <Icon size={23} raised name="minus" type="evilicon" onPress={() => console.warn('hello')} color='#252A32' /> */}
      
-      <TouchableOpacity onPress={delete_}>
+      {/* <TouchableOpacity onPress={delete_}>
         <Icon
           size={20}
           reverse
@@ -134,7 +134,7 @@ const Pedido = (props: pedido_props) => {
           type='feather'
           color='tomato'
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       </View>
       
       </TouchableOpacity>
